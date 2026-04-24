@@ -3,7 +3,7 @@ survivors_tower_guardtower:
 	turret:
 		Filename: sprites.lvl|SGuardTower.mobd
 		Facings: -16
-		Offset: 1,-17
+		Offset: 2,38
 	idle:
 		Filename: sprites.lvl|SGuardTower.mobd
 		Start: 16
