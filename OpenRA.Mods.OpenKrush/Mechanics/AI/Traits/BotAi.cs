@@ -224,6 +224,33 @@ public class BotAiInfo : ConditionalTraitInfo
 	[Desc("With high defence, the bot can require up to this many tower-class buildings in its primary base sector before launching attack waves. Scaled by personality defence: required = round(defence * this).")]
 	public int DefenseTowersMaxBeforeAllowAttack = 3;
 
+	[Desc("Max tower-queue buildings that must exist before attack waves may launch (applies on top of the defence formula). Stops very defensive personalities from never attacking. 0 = no cap (full DefenceTowersMaxBeforeAllowAttack × defence).")]
+	public int MaxTowersRequiredBeforeAttackWaves = 2;
+
+	[Desc("Caps the extra first-attack delay from economy + defence personality (adds to FirstAttackDelayTicks*). 0 = no cap.")]
+	public int FirstAttackPersonalityExtraDelayCapTicks = 1100;
+
+	[Desc("Upper bound for the post–attack wave cooldown scale (low aggression and high economy increase it). 0 = no cap. Default keeps conservative AIs from extremely long lulls between waves.")]
+	public float PostAttackCooldownScaleMax = 1.04f;
+
+	[Desc("If true, the bot estimates how much oil is left in each of its own drill wells (Current/Maximum per rig) and leans on economy/expansion when the thinnest well is low. Infinite wells act full, so they do not add stress.")]
+	public bool WellSupplyAwareness = true;
+
+	[Desc("The bot's thinnest well (lowest remaining fraction) above this value adds no well-supply stress. Must be > Critical for a ramp. ~0.32 = 32% in the worst well is still 'comfortable'.")]
+	public float WellSupplyComfortMinFraction = 0.32f;
+
+	[Desc("The thinnest well at or below this remaining fraction = full (1) well-supply stress. Must be < ComfortMin. ~0.08 = 8% in the worst well is critical.")]
+	public float WellSupplyCriticalMaxFraction = 0.08f;
+
+	[Desc("At full well-supply stress, add this much to the effective economy axis (0-1) so the AI prioritises income and expansion.")]
+	public float WellSupplyTensionToEconomyAxis = 0.28f;
+
+	[Desc("At full well-supply stress, subtract this from effective aggression (0-1) so the AI favours fixing supply over spending on attacks.")]
+	public float WellSupplyTensionTrimAggression = 0.1f;
+
+	[Desc("If AdaptiveMood, add this x well-supply stress to economyUrgency each think (0-1) so the adaptive blend also reacts. 0 = do not nudge urge from wells (axis blend still applies).")]
+	public float WellSupplyUrgencyNudge = 0.04f;
+
 	[Desc("If true, the bot nudges its effective aggression, economy, and defence from live oil/cash: poor income raises economy focus, flush reserves restore aggression and tech attempts.")]
 	public bool AdaptiveMood = true;
 
@@ -247,6 +274,18 @@ public class BotAiInfo : ConditionalTraitInfo
 
 	[Desc("Do not queue new research (TryStartResearch) until this many world ticks have passed, unless AdaptiveMood would already hard-block (see also MinimumCashToStartResearch).")]
 	public int EarlyGameTryStartResearchDelayTicks = 2500;
+
+	[Desc("From this world tick onward (~25 ticks/s: 10000 ≈ 6.7 min at normal speed), prioritize claimed sectors with oil that has a derrick but no drill, and try to queue a drill on those nodes before the generic base-building pass. 0 = disabled.")]
+	public int MidGameDrillExpansionPushStartWorldTick = 10000;
+
+	[Desc("If true and economyUrgency is at/above ExpansionDrillStrappedUrgencyThreshold, the drill-expansion window starts this many world ticks earlier (incentivize income when strapped).")]
+	public bool ExpansionDrillPushEarlierWhenStrapped = true;
+
+	[Desc("Urgency threshold (0-1) for ExpansionDrillPushEarlierWhenStrapped.")]
+	public float ExpansionDrillStrappedUrgencyThreshold = 0.38f;
+
+	[Desc("When ExpansionDrillPushEarlierWhenStrapped applies, subtract this many world ticks from MidGameDrillExpansionPushStartWorldTick (e.g. 2000 ≈ 80 s earlier at 25 ticks/s).")]
+	public int ExpansionDrillPushStrappedTicksEarly = 2000;
 
 	[Desc("Require at least this much cash/oil before starting a research from a lab, on top of other gates.")]
 	public int MinimumCashToStartResearch = 4000;
@@ -353,6 +392,9 @@ public class BotAi : IBotTick, IBotRespondToAttack
 	/// <summary>0–1, rises when it is a good time to invest in research; falls when the AI is strapped.</summary>
 	private float techOpportunity;
 
+	/// <summary>0–1, from lowest remaining well fraction across our <see cref="Drillrig" />s; 0 = comfortable, 1 = critical.</summary>
+	private float wellSupplyTension;
+
 	/// <summary>Min reserve from base personality (used for pressure thresholds, not the moving effective value).</summary>
 	private int personalityRefMinReserve;
 
@@ -396,6 +438,11 @@ public class BotAi : IBotTick, IBotRespondToAttack
 
 		if (this.thinkDelay != 0)
 			return;
+
+		if (this.info.WellSupplyAwareness)
+			this.UpdateWellSupplyTension(bot.Player);
+		else
+			this.wellSupplyTension = 0f;
 
 		if (this.info.AdaptiveMood)
 			this.UpdateEconomicMood(bot.Player);
@@ -504,10 +551,10 @@ public class BotAi : IBotTick, IBotRespondToAttack
 
 		this.effectiveMaxInfantryQueued = Math.Max(2, (int)(this.info.MaxInfantryQueued * (0.62 + agg * 0.48) * (0.9 + (1 - eco) * 0.18)));
 
-		// Hoarding economy + low aggression: keep more oil in reserve; rushers pay less attention.
+		// Hoarding economy + low aggression: keep more oil in reserve; rushers pay less attention. (Capped vs old 3.2k so turtly bots do not block unit spend forever.)
 		this.effectiveMinimumOilReserve = (int)
 			(this.info.MinimumOilReserveForProduction
-				+ 3200f * eco * (0.25f + (1 - agg) * 0.75f));
+				+ 2500f * eco * (0.28f + (1 - agg) * 0.62f));
 
 		this.effectiveAttackSquadSizeMin = Math.Max(1, (int)(this.info.AttackWaveSquadSizeMin * (0.45f + 0.75f * agg)));
 		this.effectiveAttackSquadSizeMax = Math.Max(
@@ -517,16 +564,24 @@ public class BotAi : IBotTick, IBotRespondToAttack
 
 		if (setInitOnly)
 		{
-			// Delay first offensive until production/economy can kick in, unless aggressive.
-			this.effectiveFirstAttackExtraTicks = (int)
-				(1500f * eco * (1.2f - 0.9f * agg) + 450f * (1 - agg) + 500f * def);
+			// Delay first offensive until production/economy can kick in, unless aggressive. (Milder than legacy so conservative personalities still show pressure.)
+			var extra = (int)
+				(1200f * eco * (1.15f - 0.88f * agg) + 360f * (1 - agg) + 400f * def);
+			if (this.info.FirstAttackPersonalityExtraDelayCapTicks > 0)
+				extra = Math.Min(extra, this.info.FirstAttackPersonalityExtraDelayCapTicks);
+			this.effectiveFirstAttackExtraTicks = extra;
 			// Economy-focused: sometimes +1 tanker per full node (still clamped to yaml max); roll once at start.
 			var r0 = this.world.LocalRandom;
 			this.economyExtraTankerPerNode = eco > 0.72f && r0.Next(3) == 0 ? 1 : 0;
 		}
 
 		// Slightly shorter regroup for aggressive, longer for turtly economy.
-		this.effectivePostAttackCooldownScale = 0.64f + (1 - agg) * 0.55f * (0.9f + eco * 0.15f);
+		this.effectivePostAttackCooldownScale = 0.64f + (1 - agg) * 0.5f * (0.9f + eco * 0.12f);
+		if (this.info.PostAttackCooldownScaleMax > 0f
+			&& this.effectivePostAttackCooldownScale > this.info.PostAttackCooldownScaleMax)
+		{
+			this.effectivePostAttackCooldownScale = this.info.PostAttackCooldownScaleMax;
+		}
 
 		var cap = Math.Max(0, this.info.DefenseTowersMaxBeforeAllowAttack);
 		if (cap == 0)
@@ -536,7 +591,10 @@ public class BotAi : IBotTick, IBotRespondToAttack
 			// When strapped, require fewer (or no) static defences before attacking; avoid double punishment.
 			var t = this.economyUrgency;
 			var dGate = def * (1f - 0.72f * t);
-			this.defenseTowersRequiredBeforeAttack = (int)MathF.Floor(dGate * cap + 0.0001f);
+			var n = (int)MathF.Floor(dGate * cap + 0.0001f);
+			if (this.info.MaxTowersRequiredBeforeAttackWaves > 0)
+				n = Math.Min(n, this.info.MaxTowersRequiredBeforeAttackWaves);
+			this.defenseTowersRequiredBeforeAttack = n;
 		}
 	}
 
@@ -567,6 +625,52 @@ public class BotAi : IBotTick, IBotRespondToAttack
 			this.techOpportunity = Math.Max(0, this.techOpportunity - 0.09f);
 		else
 			this.techOpportunity = Math.Max(0, this.techOpportunity - 0.02f);
+
+		if (this.info.AdaptiveMood
+			&& this.info.WellSupplyAwareness
+			&& this.info.WellSupplyUrgencyNudge > 0f
+			&& this.wellSupplyTension > 0.001f)
+		{
+			this.economyUrgency = Math.Min(1, this.economyUrgency + this.info.WellSupplyUrgencyNudge * this.wellSupplyTension);
+		}
+	}
+
+	/// <summary>Lowest remaining oil fraction across our drill rigs (each well is independent; worst well drives stress). Infinite wells stay at full fraction and do not trigger.</summary>
+	private void UpdateWellSupplyTension(Player player)
+	{
+		this.wellSupplyTension = 0f;
+		if (!this.info.WellSupplyAwareness)
+			return;
+
+		var worst = 1f;
+		var any = false;
+		foreach (var pair in this.world.ActorsWithTrait<Drillrig>())
+		{
+			if (pair.Actor.Owner != player || !pair.Actor.IsInWorld || pair.Actor.IsDead)
+				continue;
+			if (pair.Trait.IsTraitDisabled)
+				continue;
+			any = true;
+			var max = Math.Max(1, pair.Trait.Maximum);
+			var cur = Math.Min(Math.Max(0, pair.Trait.Current), max);
+			var f = cur / (float)max;
+			if (f < worst)
+				worst = f;
+		}
+
+		if (!any)
+			return;
+
+		var loF = Math.Min(this.info.WellSupplyComfortMinFraction, this.info.WellSupplyCriticalMaxFraction);
+		var hiF = Math.Max(this.info.WellSupplyComfortMinFraction, this.info.WellSupplyCriticalMaxFraction);
+		if (hiF <= loF)
+			hiF = loF + 0.0001f;
+		if (worst >= hiF)
+			this.wellSupplyTension = 0f;
+		else if (worst <= loF)
+			this.wellSupplyTension = 1f;
+		else
+			this.wellSupplyTension = 1f - (worst - loF) / (hiF - loF);
 	}
 
 	/// <summary>Blend static personality (and mood if enabled), apply early-game aggression, refresh derived timings.</summary>
@@ -595,6 +699,18 @@ public class BotAi : IBotTick, IBotRespondToAttack
 		aggD = BotAi.ClampF(aggD, 0, 1);
 		ecoD = BotAi.ClampF(ecoD, 0, 1);
 		defD = BotAi.ClampF(defD, 0, 1);
+
+		if (this.info.WellSupplyAwareness)
+		{
+			var w = this.wellSupplyTension;
+			if (w > 0.001f)
+			{
+				ecoD = BotAi.ClampF(ecoD + w * this.info.WellSupplyTensionToEconomyAxis, 0, 1);
+				if (this.info.WellSupplyTensionTrimAggression > 0f)
+					aggD = BotAi.ClampF(aggD - w * this.info.WellSupplyTensionTrimAggression, 0, 1);
+			}
+		}
+
 		this.ApplyAxisToEffectiveValues(aggD, ecoD, defD, setInitOnly: false);
 	}
 
@@ -821,6 +937,59 @@ public class BotAi : IBotTick, IBotRespondToAttack
 		}
 	}
 
+	private int GetDrillExpansionPushEffectiveStartWorldTick()
+	{
+		if (this.info.MidGameDrillExpansionPushStartWorldTick <= 0)
+			return int.MaxValue;
+
+		var t = this.info.MidGameDrillExpansionPushStartWorldTick;
+		if (this.info.ExpansionDrillPushEarlierWhenStrapped
+			&& this.economyUrgency >= this.info.ExpansionDrillStrappedUrgencyThreshold)
+		{
+			t = Math.Max(0, t - this.info.ExpansionDrillPushStrappedTicksEarly);
+		}
+
+		return t;
+	}
+
+	/// <summary>Queue a <see cref="Drillrig" /> on oil that already has a derrick but no rig (income expansion).</summary>
+	private bool TryBuildDrillOnDerrickReadiedOil(
+		IBot bot,
+		SelfConstructingProductionQueue productionQueue,
+		ActorInfo[] buildables,
+		Sector sector,
+		WPos homeWPos
+	)
+	{
+		if (productionQueue.IsConstructing())
+			return false;
+
+		var needDrill = sector.OilPatches
+			.Where(o => o is { Derrick: { } } && o.Drillrig == null)
+			.OrderBy(o => (o.OilPatch.CenterPosition - homeWPos).LengthSquared)
+			.ToList();
+
+		if (needDrill.Count == 0)
+			return false;
+
+		var drillB = buildables
+			.FirstOrDefault(
+				b => b.HasTraitInfo<DrillrigInfo>() && b.TraitInfoOrDefault<BuildingInfo>() != null
+					&& this.BelowOrEqualBuildLimit(bot.Player, b)
+			);
+
+		if (drillB == null)
+			return false;
+
+		foreach (var op in needDrill)
+		{
+			if (this.Build(bot, sector, drillB, productionQueue, op.OilPatch.CenterPosition))
+				return true;
+		}
+
+		return false;
+	}
+
 	private void ConstructBuildings(IBot bot)
 	{
 		var productionQueue = this.world.ActorsWithTrait<SelfConstructingProductionQueue>()
@@ -834,14 +1003,28 @@ public class BotAi : IBotTick, IBotRespondToAttack
 
 		var primary = this.GetPrimaryBaseSector(bot.Player);
 		var homeWPos = this.world.Map.CenterOfCell(bot.Player.HomeLocation);
-		var sectorOrder = this.sectors
-			.Where(sector => sector.Claimed)
-			.OrderBy(sector => primary != null && sector == primary ? 1 : 0)
-			.ThenBy(sector => (sector.Origin - homeWPos).LengthSquared);
+		var worldTick = this.world.WorldTick;
+		var effectiveDrillPushStart = this.GetDrillExpansionPushEffectiveStartWorldTick();
+		var expansionDrillPushActive = this.info.MidGameDrillExpansionPushStartWorldTick > 0
+			&& worldTick >= effectiveDrillPushStart;
+
+		var claimed = this.sectors.Where(sector => sector.Claimed);
+		var sectorOrder = expansionDrillPushActive
+			? claimed
+				.OrderBy(sector => sector.OilPatches.Any(
+					o => o is { Derrick: { } } && o.Drillrig == null
+				)
+					? 0
+					: 1
+				)
+				.ThenBy(sector => primary != null && sector == primary ? 1 : 0)
+				.ThenBy(sector => (sector.Origin - homeWPos).LengthSquared)
+			: claimed
+				.OrderBy(sector => primary != null && sector == primary ? 1 : 0)
+				.ThenBy(sector => (sector.Origin - homeWPos).LengthSquared);
 
 		var buildingsInSectors = this.GetPrerequisiteBuildingsBySector(bot.Player);
 
-		var worldTick = this.world.WorldTick;
 		foreach (var sector in sectorOrder)
 		{
 			if (!buildingsInSectors.TryGetValue(sector, out var buildingsInSector))
@@ -852,6 +1035,12 @@ public class BotAi : IBotTick, IBotRespondToAttack
 				&& primary != null
 				&& sector == primary
 				&& this.TryBuildSecondOpeningPowerStation(bot, productionQueue, buildables, sector))
+			{
+				break;
+			}
+
+			if (expansionDrillPushActive
+				&& this.TryBuildDrillOnDerrickReadiedOil(bot, productionQueue, buildables, sector, homeWPos))
 			{
 				break;
 			}

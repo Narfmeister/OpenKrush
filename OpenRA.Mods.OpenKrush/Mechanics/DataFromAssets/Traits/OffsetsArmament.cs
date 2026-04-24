@@ -37,12 +37,21 @@ public class OffsetsArmament : Armament
 {
 	private readonly OffsetsArmamentInfo info;
 	private readonly WithSpriteBody wsb;
+	private BodyOrientation coords = null!;
+	private Turreted? turretForOffsets;
 
 	public OffsetsArmament(Actor self, OffsetsArmamentInfo info)
 		: base(self, info)
 	{
 		this.info = info;
 		this.wsb = self.TraitOrDefault<WithSpriteBody>();
+	}
+
+	protected override void Created(Actor self)
+	{
+		base.Created(self);
+		this.coords = self.Trait<BodyOrientation>();
+		this.turretForOffsets = self.TraitsImplementing<Turreted>().FirstOrDefault(t => t.Name == this.Info.Turret);
 	}
 
 	protected override WVec CalculateMuzzleOffset(Actor self, Barrel barrel)
@@ -73,7 +82,12 @@ public class OffsetsArmament : Armament
 			var weaponOrTurretOffset = offsets.FirstOrDefault(p => p.Id == (wst == null ? weaponPoint : 0));
 
 			if (weaponOrTurretOffset != null)
-				offset = new(offset.X + weaponOrTurretOffset.X * 32, offset.Y + weaponOrTurretOffset.Y * 32, offset.Z);
+			{
+				var bodyOrientation = this.coords.QuantizeOrientation(self.Orientation);
+				var mobdLocal = new WVec(weaponOrTurretOffset.X * 32, weaponOrTurretOffset.Y * 32, 0);
+				var yamlOff = this.turretForOffsets?.Offset ?? WVec.Zero;
+				offset += this.coords.LocalToWorld((mobdLocal - yamlOff).Rotate(bodyOrientation));
+			}
 		}
 
 		if (wst?.DefaultAnimation.CurrentSequence is not OffsetsSpriteSequence turretSequence)
@@ -87,8 +101,11 @@ public class OffsetsArmament : Armament
 		var turretOffsets = turretSequence.EmbeddedOffsets[sprite];
 		var weaponOffset = turretOffsets.FirstOrDefault(p => p.Id == weaponPoint);
 
-		if (weaponOffset != null)
-			offset = new(offset.X + weaponOffset.X * 32, offset.Y + weaponOffset.Y * 32, offset.Z);
+		if (weaponOffset != null && this.turretForOffsets != null)
+		{
+			var turretLocal = new WVec(weaponOffset.X * 32, weaponOffset.Y * 32, 0);
+			offset += this.coords.LocalToWorld(turretLocal.Rotate(this.turretForOffsets.WorldOrientation));
+		}
 
 		return offset;
 	}

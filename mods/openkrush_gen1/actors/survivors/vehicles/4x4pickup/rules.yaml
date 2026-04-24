@@ -23,6 +23,9 @@ survivors_vehicle_4x4pickup:
 		Weapon: survivors_vehicle_4x4pickup
 	Turreted:
 		TurnSpeed: 80
+	# Pickup uses a 2-frame move cycle; MOBD anchors differ per frame like other vehicles.
+	WithOffsetsSpriteTurret:
+		StableTurretEmbeddedOffsetWhenMoving: true
 	AdvancedSelectionDecorations:
 		Offset: 0,-6
 	Veterancy:

@@ -19,6 +19,7 @@ using Common.Traits.Render;
 using Graphics;
 using JetBrains.Annotations;
 using OpenRA.Graphics;
+using OpenRA.Primitives;
 
 [UsedImplicitly]
 [Desc("Use asset provided turret offset.")]
@@ -48,8 +49,9 @@ public class WithOffsetsSpriteTurretInfo : WithSpriteTurretInfo, IRenderActorPre
 		// have no IFacing, so init.GetFacing() is WAngle.Zero while Turreted uses InitialFacing (e.g. 512), which
 		// makes embedded turret offset lookups disagree with the drawn body/turret in place-building previews.
 		var worldTurretFacing = turretedInfo.WorldFacingFromInit(init);
+		var bodyFacing = init.GetFacing();
 		var offset = new Func<WVec>(() => body.LocalToWorld(turretedInfo.Offset.Rotate(
-			body.QuantizeOrientation(WRot.FromYaw(worldTurretFacing()), facings))));
+			body.QuantizeOrientation(WRot.FromYaw(bodyFacing()), facings))));
 
 		var bodyAnim = new Animation(init.World, image, worldTurretFacing);
 		bodyAnim.PlayRepeating(RenderSprites.NormalizeSequence(bodyAnim, init.GetDamageState(), "idle"));
@@ -59,7 +61,11 @@ public class WithOffsetsSpriteTurretInfo : WithSpriteTurretInfo, IRenderActorPre
 			var point = imageOffset.FirstOrDefault(p1 => p1.Id == 0);
 
 			if (point != null)
-				offset = () => new(point.X * 32, point.Y * 32, 0);
+			{
+				var bodyOrientation = body.QuantizeOrientation(WRot.FromYaw(bodyFacing()), facings);
+				var localEmbedded = new WVec(point.X * 32, point.Y * 32, 0);
+				offset = () => body.LocalToWorld(localEmbedded.Rotate(bodyOrientation));
+			}
 		}
 
 		if (this.IsPlayerPalette)
@@ -88,12 +94,16 @@ public class WithOffsetsSpriteTurret : WithSpriteTurret
 {
 	private readonly WithOffsetsSpriteTurretInfo offsetsInfo;
 	private readonly WithSpriteBody wsb;
+	private readonly BodyOrientation bodyOrientation;
+	private readonly Turreted turret;
 
 	public WithOffsetsSpriteTurret(Actor self, WithSpriteTurretInfo info)
 		: base(self, info)
 	{
 		this.offsetsInfo = (WithOffsetsSpriteTurretInfo)info;
 		this.wsb = self.TraitOrDefault<WithSpriteBody>();
+		this.bodyOrientation = self.Trait<BodyOrientation>();
+		this.turret = self.TraitsImplementing<Turreted>().First(tt => tt.Name == info.Turret);
 	}
 
 	internal bool TryResolveBodyEmbeddedAnchor(Actor self, out OffsetsSpriteSequence sequence, out Sprite sprite)
@@ -139,7 +149,16 @@ public class WithOffsetsSpriteTurret : WithSpriteTurret
 			return base.TurretOffset(self);
 
 		var point = sequence.EmbeddedOffsets[sprite].FirstOrDefault(p => p.Id == 0);
+		if (point == null)
+			return base.TurretOffset(self);
 
-		return point != null ? new(point.X * 32, point.Y * 32, base.TurretOffset(self).Z) : base.TurretOffset(self);
+		var bodyOri = this.bodyOrientation.QuantizeOrientation(self.Orientation);
+		var localEmbedded = new WVec(point.X * 32, point.Y * 32, 0);
+		var embeddedMount = this.bodyOrientation.LocalToWorld(localEmbedded.Rotate(bodyOri));
+
+		var yamlMount = this.turret.Position(self);
+		var baseFull = base.TurretOffset(self);
+
+		return new WVec(embeddedMount.X, embeddedMount.Y, yamlMount.Z) + (baseFull - yamlMount);
 	}
 }
