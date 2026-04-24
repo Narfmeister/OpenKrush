@@ -1,8 +1,7 @@
 ---
 description: Build and verify OpenKrush via the root Makefile (not ad-hoc dotnet/msbuild unless Makefile says so)
-alwaysApply: true
+alwaysApply: false
 ---
-
 # Build (OpenKrush)
 
 - **Compile** from the repository root: `make` (default goal is `all`).
@@ -13,3 +12,6 @@ alwaysApply: true
 - Optional: `RUNTIME=mono` for Mono instead of .NET 6; `TARGETPLATFORM=unix-generic` with system native deps per Makefile comments.
 
 When the user asks to build, compile, or run checks for this project, prefer these `make` targets from the repo root instead of inventing raw `dotnet build` / IDE-only steps unless there is a documented exception.
+
+DO NOT USE `DOTNET BUILD` YOU FUCK.
+UNDER NO CIRCUMSTANCE USE `DOTNET BUILD`.
