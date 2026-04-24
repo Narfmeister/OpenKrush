@@ -11,6 +11,7 @@ survivors_tower_cannontower:
 		TrailPalette: openkrush
 		Sequences: projectile
 		Speed: 450
+		Blockable: false
 	Warhead@Damage: SpreadDamage
 		Versus:
 			infantry: 86

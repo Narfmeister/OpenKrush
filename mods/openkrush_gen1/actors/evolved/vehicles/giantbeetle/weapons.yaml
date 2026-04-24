@@ -12,6 +12,7 @@ evolved_vehicle_giantbeetle:
 		Speed: 250
 		Inaccuracy: 2c0
 		LaunchAngle: 50
+		Blockable: false
 	Warhead@Damage: SpreadDamage
 		Damage: 100
 		DamageTypes: Acid

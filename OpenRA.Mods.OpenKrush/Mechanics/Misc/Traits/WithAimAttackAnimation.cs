@@ -70,5 +70,6 @@ public class WithAimAttackAnimation : ITick, INotifyAttack, INotifyAiming
 	void INotifyAiming.StoppedAiming(Actor self, AttackBase attack)
 	{
 		this.aiming = false;
+		this.wsb.CancelCustomAnimation(self);
 	}
 }

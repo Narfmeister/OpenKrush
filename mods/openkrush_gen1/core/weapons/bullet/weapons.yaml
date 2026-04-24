@@ -1,5 +1,6 @@
 ^weapon_bullet:
 	Projectile: InstantHit
+		Blockable: false
 	Warhead@Damage: SpreadDamage
 		Damage: 100
 		Spread: 32

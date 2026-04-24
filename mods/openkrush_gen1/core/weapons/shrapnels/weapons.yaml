@@ -5,6 +5,7 @@
 		Speed: 50,80
 		LaunchAngle: 70, 150
 		Inaccuracy: 2c0
+		Blockable: false
 		Image: weapon_shrapnels
 		Palette: openkrush
 		TrailPalette: openkrush
@@ -46,6 +47,7 @@
 		Speed: 50,80
 		LaunchAngle: 70, 150
 		Inaccuracy: 2c0
+		Blockable: false
 		Image: weapon_shrapnels
 		Palette: openkrush
 		TrailPalette: openkrush

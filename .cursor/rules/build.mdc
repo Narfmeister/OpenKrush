@@ -1,0 +1,15 @@
+---
+description: Build and verify OpenKrush via the root Makefile (not ad-hoc dotnet/msbuild unless Makefile says so)
+alwaysApply: true
+---
+
+# Build (OpenKrush)
+
+- **Compile** from the repository root: `make` (default goal is `all`).
+- **Clean**: `make clean`.
+- **Style / static checks**: `make check`.
+- **Mod YAML / tests**: `make test` (optional: `TREAT_WARNINGS_AS_ERRORS=false`).
+- **Lua syntax**: `make check-scripts`.
+- Optional: `RUNTIME=mono` for Mono instead of .NET 6; `TARGETPLATFORM=unix-generic` with system native deps per Makefile comments.
+
+When the user asks to build, compile, or run checks for this project, prefer these `make` targets from the repo root instead of inventing raw `dotnet build` / IDE-only steps unless there is a documented exception.

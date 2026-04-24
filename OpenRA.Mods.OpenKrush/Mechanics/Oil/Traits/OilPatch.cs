@@ -16,8 +16,9 @@ namespace OpenRA.Mods.OpenKrush.Mechanics.Oil.Traits;
 using GameRules;
 using JetBrains.Annotations;
 using LobbyOptions;
+using OpenRA.Mods.Common.Traits;
+using OpenRA.Primitives;
 using OpenRA.Traits;
-using Primitives;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 [Desc("Oilpatch implementation.")]
@@ -40,6 +41,10 @@ public class OilPatchInfo : TraitInfo, IRulesetLoaded, IHealthInfo
 	[Desc("Has to be defined in weapons.yaml as well.")]
 	public readonly string Weapon = "oilburn";
 
+	[GrantedConditionReference]
+	[Desc("Granted while a drill rig is deployed on this patch; use with ConditionalSelectable RequiresCondition: !CoveredByDrillrig.")]
+	public readonly string CoveredByDrillrigCondition = "CoveredByDrillrig";
+
 	public int MaxHP => this.FullAmount;
 
 	public WeaponInfo? WeaponInfo { get; private set; }
@@ -61,6 +66,7 @@ public class OilPatchInfo : TraitInfo, IRulesetLoaded, IHealthInfo
 
 		this.WeaponInfo = weapon;
 	}
+
 }
 
 public class OilPatch : IHealth, ITick, IHaveOil
@@ -76,6 +82,7 @@ public class OilPatch : IHealth, ITick, IHaveOil
 	public bool IsDead => this.resources == 0;
 
 	private int token = Actor.InvalidConditionToken;
+	private int coveredByDrillrigToken = Actor.InvalidConditionToken;
 
 	private readonly int burnTotal;
 	private int burnLeft;
@@ -111,6 +118,14 @@ public class OilPatch : IHealth, ITick, IHaveOil
 
 	void ITick.Tick(Actor self)
 	{
+		if (this.Drillrig != null)
+		{
+			if (this.coveredByDrillrigToken == Actor.InvalidConditionToken)
+				this.coveredByDrillrigToken = self.GrantCondition(this.Info.CoveredByDrillrigCondition);
+		}
+		else if (this.coveredByDrillrigToken != Actor.InvalidConditionToken)
+			this.coveredByDrillrigToken = self.RevokeCondition(this.coveredByDrillrigToken);
+
 		if (this.token != Actor.InvalidConditionToken)
 		{
 			if (this.Drillrig != null)
@@ -134,7 +149,12 @@ public class OilPatch : IHealth, ITick, IHaveOil
 		}
 
 		if (this.resources == 0)
+		{
+			if (this.coveredByDrillrigToken != Actor.InvalidConditionToken)
+				this.coveredByDrillrigToken = self.RevokeCondition(this.coveredByDrillrigToken);
+
 			self.Dispose();
+		}
 	}
 
 	void IHealth.InflictDamage(Actor self, Actor attacker, Damage damage, bool ignoreModifiers)

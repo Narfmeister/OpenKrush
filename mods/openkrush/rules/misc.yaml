@@ -126,17 +126,11 @@ World:
 	DevCommands:
 	DebugVisualizationCommands:
 
-	LobbyOptionCategory@oilpatch:
-		Category: oilpatch
-		Title: Oil
 	# Oilpatch selectbox.
 	OilAmount:
 	# Oilpatch selectbox.
 	OilBurn:
 
-	LobbyOptionCategory@research:
-		Category: research
-		Title: Research
 	# TechLimit selectbox.
 	TechLimit:
 	# Research duration selectbox.
@@ -144,9 +138,6 @@ World:
 	# Research mode selectbox.
 	ResearchMode:
 
-	LobbyOptionCategory@techbunker:
-		Category: techbunker
-		Title: Tech Bunkers
 	# TechBunker amount selectbox.
 	TechBunkerAmount:
 	# TechBunker contains selectbox.
@@ -156,9 +147,6 @@ World:
 	# TechBunker uses selectbox.
 	TechBunkerUses:
 
-	LobbyOptionCategory@saboteur:
-		Category: saboteur
-		Title: Saboteurs
 	# Saboteur usage selectbox.
 	SaboteurUsage:
 
@@ -167,8 +155,6 @@ EditorWorld:
 	Inherits: ^CoreWorld
 	# Displays actors in editor.
 	EditorActorLayer:
-	# Selecting, Copying, Pasting Support for map editor.
-	EditorSelectionLayer:
 	# Cursor attached stuff.
 	EditorCursorLayer:
 	# Marker layer for planning overlays.

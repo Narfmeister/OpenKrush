@@ -1,7 +1,11 @@
 # Oil resource.
 oilpatch:
 	Inherits: ^CoreConstruction
-	# Oilpatch behavior.
+	-Selectable:
+	# Engine Selectable is not a ConditionalTrait; use this so RequiresCondition is honored (match ^CoreConstruction Selectable).
+	ConditionalSelectable:
+		RequiresCondition: !CoveredByDrillrig
+		Bounds: 1024, 1024, 0, 0
 	OilPatch:
 	# Put oil in resources category in map editor.
 	MapEditorData:
@@ -23,8 +27,6 @@ oilpatch:
 		Type: Rectangle
 			TopLeft: -512, -512
 			BottomRight: 512, 512
-	Selectable:
-		Bounds: 1024, 1024, 0, 0
 	# Oil has a healthbar when hovered, which shows the oil amount.
 	AdvancedSelectionDecorations:
 	# Not buildable.
