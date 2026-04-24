@@ -3,13 +3,13 @@ evolved_tower_machinegunnest:
 	turret:
 		Filename: sprites.lvl|MGuardTower.mobd
 		Facings: -16
-		Offset: 1,6
+		Offset: 1,5
 	# Frame 16 is the finished base; in the .mobd it sits one row above the make0–make2 frames (17–19), so nudge
 	# down to match the build animation and the turret.
 	idle:
 		Filename: sprites.lvl|MGuardTower.mobd
 		Start: 16
-		Offset: 1,6
+		Offset: 1,5
 	make0:
 		Filename: sprites.lvl|MGuardTower.mobd
 		Start: 17
@@ -24,6 +24,6 @@ evolved_tower_machinegunnest:
 		Offset: 1,-14
 	damaged-idle:
 		Filename: actors/evolved/towers/machinegunnest/frames.png
-		Offset: 1,6
+		Offset: 1,5
 	icon:
 		Filename: actors/evolved/towers/machinegunnest/icon.png
