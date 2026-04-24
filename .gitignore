@@ -47,4 +47,4 @@ _ReSharper.*/
 .idea
 .cache
 
-.cursor
+.cursor/
