@@ -125,6 +125,12 @@ public class BotAiInfo : ConditionalTraitInfo
 	[Desc("When idle count is at or above IdleEscalationThreshold, cap the wave at this many units (still ≤ idle count).")]
 	public int AttackWaveIdleEscalationSendMax = 20;
 
+	[Desc("If >0, units within this many cells of the bot home (and combat-eligible) count toward attack waves even when not IsIdle—on full-vision / no shroud, AutoTarget often keeps units 'busy' at long range, which caused tiny squads to trickle. 0 = only IsIdle (legacy).")]
+	public int AttackWaveGatherMaxDistanceFromHomeCells = 24;
+
+	[Desc("If >0, delay a wave until the pool has at least this many units, only when field combat count is already that high; if most of the army is off-map the pool can stay small—pair with GatherMax distance. 0 = off.")]
+	public int AttackWaveMinPoolUnitsToLaunch = 0;
+
 	[Desc("Ticks before the next attack wave when this wave was at minimum size (larger squads get longer pauses, up to the max below).")]
 	public int AttackWaveCooldownTicksIfSmallSquad = 400;
 
@@ -145,6 +151,9 @@ public class BotAiInfo : ConditionalTraitInfo
 
 	[Desc("When true, pick a non-bot enemy as the attack target when one exists.")]
 	public bool PreferNonBotTargets = false;
+
+	[Desc("When true, attack waves and tactical \"raid vs home\" decisions prefer win-state opponents (not NonCombatant, e.g. creep/neutral players) and only use neutral-faction targets if no other enemies exist. Stops the bot from rotating attacks toward map neutrals while human/bot enemies are in play.")]
+	public bool DeprioritizeNonCombatantEnemies = true;
 
 	[Desc("If true, periodically react to home threats: send idle field units to defend (reinforce), and if the raid is not winning, Move-order away teams back. Uses Tactical* radii and ratios.")]
 	public bool TacticalDefenceEnabled = true;
@@ -1998,15 +2007,27 @@ public class BotAi : IBotTick, IBotRespondToAttack
 			new Order("Move", null, Target.FromCell(this.world, homeC), false, null, away)
 		);
 	}
-	private List<Player> GetTacticalEnemyPlayers(Player p) =>
-		this.world.Players
+	/// <summary>Enemies for attack waves and tactical raid push scoring; may omit NonCombatant when other enemies exist.</summary>
+	private List<Player> GetTacticalEnemyPlayers(Player p) => this.GetEnemyPlayersForOffensiveAI(p);
+
+	/// <summary>Relationship enemies, optionally with neutral/creep (NonCombatant) players de-prioritised so the AI focuses on win-state opponents.</summary>
+	private List<Player> GetEnemyPlayersForOffensiveAI(Player self)
+	{
+		var all = this.world.Players
 			.Where(
-				e => e != p
-					&& !e.Spectating
-					&& e.WinState == WinState.Undefined
-					&& p.RelationshipWith(e) == PlayerRelationship.Enemy
+				p => p != self
+					&& !p.Spectating
+					&& p.WinState == WinState.Undefined
+					&& self.RelationshipWith(p) == PlayerRelationship.Enemy
 			)
 			.ToList();
+
+		if (!this.info.DeprioritizeNonCombatantEnemies)
+			return all;
+
+		var withoutNeutrals = all.Where(p => !p.NonCombatant).ToList();
+		return withoutNeutrals.Count > 0 ? withoutNeutrals : all;
+	}
 
 	/// <summary>Enemy to score the “offensive” ring around. Requires <paramref name="enemies" /> non-empty.</summary>
 	private Player PickTacticalTargetEnemy(IReadOnlyList<Player> enemies, MersenneTwister r)
@@ -2033,6 +2054,25 @@ public class BotAi : IBotTick, IBotRespondToAttack
 		return IsCombatSquadUnit(a);
 	}
 
+	/// <summary>
+	/// True if the unit may be ordered in a grouped attack wave. Uses <see cref="Actor.IsIdle" /> or, when
+	/// <see cref="BotAiInfo.AttackWaveGatherMaxDistanceFromHomeCells" /> is set, units near the player home—on
+	/// no-shroud maps AutoTarget often clears idle for units that are still at base, which produced tiny squads.
+	/// </summary>
+	private bool IsUnitAvailableForAttackWave(Actor a, IBot bot)
+	{
+		if (a.IsIdle)
+			return true;
+		var cells = this.info.AttackWaveGatherMaxDistanceFromHomeCells;
+		if (cells <= 0)
+			return false;
+		if (!this.world.Map.Contains(bot.Player.HomeLocation))
+			return false;
+		var homeW = this.world.Map.CenterOfCell(bot.Player.HomeLocation);
+		var maxL = WDist.FromCells(cells).Length;
+		return (a.CenterPosition - homeW).HorizontalLength <= maxL;
+	}
+
 	private void TryAttackSquad(IBot bot, int t)
 	{
 		if (bot.Player.WinState != WinState.Undefined)
@@ -2056,16 +2096,9 @@ public class BotAi : IBotTick, IBotRespondToAttack
 		var sMin = Math.Min(this.effectiveAttackSquadSizeMin, this.effectiveAttackSquadSizeMax);
 		var sMax = Math.Max(this.effectiveAttackSquadSizeMin, this.effectiveAttackSquadSizeMax);
 
-		// Do not require !p.NonCombatant: map "Creeps" and similar are NonCombatant (no win/lose) but are still
-		// declared Enemies: ... and must be engaged or the bot ignores hostile neutrals and loses.
-		var enemies = this.world.Players
-			.Where(
-				p => p != bot.Player
-					&& !p.Spectating
-					&& p.WinState == WinState.Undefined
-					&& bot.Player.RelationshipWith(p) == PlayerRelationship.Enemy
-			)
-			.ToList();
+		// When DeprioritizeNonCombatantEnemies, attack rotation favours real opponents; neutrals (Creeps) are only
+		// used if there is no one else, so the bot is not "fed" to neutral farmers while other enemies exist.
+		var enemies = this.GetEnemyPlayersForOffensiveAI(bot.Player);
 
 		if (enemies.Count == 0)
 		{
@@ -2080,38 +2113,50 @@ public class BotAi : IBotTick, IBotRespondToAttack
 				enemies = nonBots;
 		}
 
-		var idleCombat = this.world.Actors
+		var attackPool = this.world.Actors
 			.Where(
 				a => a.Owner == bot.Player
 					&& a.IsInWorld
 					&& !a.IsDead
-					&& a.IsIdle
 					&& IsCombatSquadUnit(a)
+					&& this.IsUnitAvailableForAttackWave(a, bot)
 			)
 			.OrderBy(_ => r.Next(1000))
 			.ToList();
 
-		if (idleCombat.Count == 0)
+		if (attackPool.Count == 0)
 		{
-			// No idle raiders: try again after a short, randomized pause.
+			// No units available: try again after a short, randomized pause.
 			this.nextAttackTick = t + r.Next(120, 320);
 			return;
+		}
+
+		var minPool = this.info.AttackWaveMinPoolUnitsToLaunch;
+		if (minPool > 0)
+		{
+			var fieldCombat = this.CountOurFieldCombatUnits(bot.Player);
+			if (fieldCombat >= minPool && attackPool.Count < minPool)
+			{
+				// More chips could join the gather pool (e.g. walking in); avoid one-at-a-time waves when configured.
+				this.nextAttackTick = t + r.Next(45, 120);
+				return;
+			}
 		}
 
 		var baseWave = sMin >= sMax ? sMin : r.Next(sMin, sMax + 1);
 		var desiredSquad = baseWave;
 		var thr = this.info.AttackWaveIdleEscalationThreshold;
-		if (thr > 0 && idleCombat.Count >= thr)
+		if (thr > 0 && attackPool.Count >= thr)
 		{
 			var sendMax = Math.Max(1, this.info.AttackWaveIdleEscalationSendMax);
 			// Send a larger slice when many units are banked (default: up to half the stack, capped).
-			var escalated = Math.Max(baseWave, Math.Min(sendMax, (idleCombat.Count + 1) / 2));
-			desiredSquad = Math.Min(idleCombat.Count, escalated);
+			var escalated = Math.Max(baseWave, Math.Min(sendMax, (attackPool.Count + 1) / 2));
+			desiredSquad = Math.Min(attackPool.Count, escalated);
 		}
-		else if (idleCombat.Count > sMax)
-			desiredSquad = Math.Min(idleCombat.Count, Math.Max(baseWave, sMax));
+		else if (attackPool.Count > sMax)
+			desiredSquad = Math.Min(attackPool.Count, Math.Max(baseWave, sMax));
 
-		var squad = idleCombat.Take(desiredSquad).ToArray();
+		var squad = attackPool.Take(desiredSquad).ToArray();
 
 		var targetPlayer = enemies[this.attackTargetCursor++ % enemies.Count];
 		var target = this.PickAttackTarget(bot.Player, targetPlayer, squad, r);

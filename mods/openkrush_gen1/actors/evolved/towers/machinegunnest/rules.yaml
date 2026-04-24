@@ -17,7 +17,7 @@ evolved_tower_machinegunnest:
 		MuzzlePalette:
 		Weapon: evolved_tower_machinegunnest
 		# Embed-based muzzle ignores the turret sequence Offset; nudge Z when retuning turret Offset.
-		LocalOffset: 0,25,-550
+		LocalOffset: 0,25,-575
 	Turreted:
 		TurnSpeed: 80
 	AdvancedSelectionDecorations:
