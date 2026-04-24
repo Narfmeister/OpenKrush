@@ -40,10 +40,14 @@ public class WithOffsetsSpriteTurretInfo : WithSpriteTurretInfo, IRenderActorPre
 		if (turretedInfo == null)
 			yield break;
 
-		var facing = init.GetFacing();
-		var offset = new Func<WVec>(() => body.LocalToWorld(turretedInfo.Offset.Rotate(body.QuantizeOrientation(WRot.FromYaw(facing()), facings))));
+		// Use the same turret world facing for the body anim as the turret layer and as runtime. Buildings often
+		// have no IFacing, so init.GetFacing() is WAngle.Zero while Turreted uses InitialFacing (e.g. 512), which
+		// makes embedded turret offset lookups disagree with the drawn body/turret in place-building previews.
+		var worldTurretFacing = turretedInfo.WorldFacingFromInit(init);
+		var offset = new Func<WVec>(() => body.LocalToWorld(turretedInfo.Offset.Rotate(
+			body.QuantizeOrientation(WRot.FromYaw(worldTurretFacing()), facings))));
 
-		var bodyAnim = new Animation(init.World, image, init.GetFacing());
+		var bodyAnim = new Animation(init.World, image, worldTurretFacing);
 		bodyAnim.PlayRepeating(RenderSprites.NormalizeSequence(bodyAnim, init.GetDamageState(), "idle"));
 
 		if (bodyAnim.CurrentSequence is OffsetsSpriteSequence bodySequence && bodySequence.EmbeddedOffsets.TryGetValue(bodyAnim.Image, out var imageOffset))
@@ -59,8 +63,7 @@ public class WithOffsetsSpriteTurretInfo : WithSpriteTurretInfo, IRenderActorPre
 		else if (this.Palette != null)
 			p = init.WorldRenderer.Palette(this.Palette);
 
-		var turretFacing = turretedInfo.WorldFacingFromInit(init);
-		var anim = new Animation(init.World, image, turretFacing);
+		var anim = new Animation(init.World, image, worldTurretFacing);
 		anim.Play(RenderSprites.NormalizeSequence(anim, init.GetDamageState(), this.Sequence));
 
 		yield return new SpriteActorPreview(
