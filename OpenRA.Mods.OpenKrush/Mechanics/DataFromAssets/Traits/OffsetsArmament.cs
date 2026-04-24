@@ -17,6 +17,7 @@ using Common.Traits;
 using Common.Traits.Render;
 using Graphics;
 using JetBrains.Annotations;
+using OpenRA.Graphics;
 using OpenRA.Traits;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
@@ -48,13 +49,23 @@ public class OffsetsArmament : Armament
 	{
 		var offset = base.CalculateMuzzleOffset(self, barrel);
 
-		if (this.wsb.DefaultAnimation.CurrentSequence is not OffsetsSpriteSequence sequence)
+		var wst = self.TraitOrDefault<WithOffsetsSpriteTurret>();
+		OffsetsSpriteSequence sequence;
+		Sprite sprite;
+
+		if (wst != null && wst.TryResolveBodyEmbeddedAnchor(self, out sequence, out sprite))
+		{
+			// resolved (optionally stable while moving)
+		}
+		else if (this.wsb.DefaultAnimation.CurrentSequence is OffsetsSpriteSequence bodySeq)
+		{
+			sequence = bodySeq;
+			sprite = this.wsb.DefaultAnimation.Image;
+		}
+		else
 			return offset;
 
-		var wst = self.TraitOrDefault<WithOffsetsSpriteTurret>();
 		var weaponPoint = this.info.BurstOffsets[(this.Weapon.Burst - this.Burst) % this.info.BurstOffsets.Length];
-
-		var sprite = this.wsb.DefaultAnimation.Image;
 
 		if (sequence.EmbeddedOffsets.ContainsKey(sprite))
 		{

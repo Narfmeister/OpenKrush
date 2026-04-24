@@ -49,6 +49,9 @@ public class Lvl : IReadOnlyPackage
 		if (context.TryOpen(lookupPath, out var lookupStream))
 			lvlLookup = MiniYaml.FromStream(lookupStream, lookupPath).ToDictionary(node => node.Key, node => node.Value.Value);
 
+		// Last inserted filename: Dictionary.ElementAt(Count-1) is O(n) each time → O(n²) to build the index.
+		string? lastFileName = null;
+
 		var fileTypeListOffset = stream.ReadInt32();
 		stream.Position = fileTypeListOffset;
 
@@ -88,11 +91,8 @@ public class Lvl : IReadOnlyPackage
 					continue;
 
 				// As the fileLength is nowhere stored, but files always follow in order, calculate the previous fileLength.
-				if (this.index.Count > 0)
-				{
-					var entry = this.index.ElementAt(this.index.Count - 1).Value;
-					entry[1] = fileOffset - entry[0];
-				}
+				if (lastFileName != null)
+					this.index[lastFileName][1] = fileOffset - this.index[lastFileName][0];
 
 				var assetFileName = $"{j}.{fileType.ToLower()}";
 
@@ -103,6 +103,7 @@ public class Lvl : IReadOnlyPackage
 					lvlLookup.Add(assetFileName, assetFileName);
 
 				this.index.Add(assetFileName, new[] { fileOffset, 0 });
+				lastFileName = assetFileName;
 			}
 		}
 
@@ -110,8 +111,8 @@ public class Lvl : IReadOnlyPackage
 			return;
 
 		// Calculate the last fileLength.
-		var lastEntry = this.index.ElementAt(this.index.Count - 1).Value;
-		lastEntry[1] = firstFileListOffset - lastEntry[0];
+		if (lastFileName != null)
+			this.index[lastFileName][1] = firstFileListOffset - this.index[lastFileName][0];
 	}
 
 	public Stream? GetStream(string filename)

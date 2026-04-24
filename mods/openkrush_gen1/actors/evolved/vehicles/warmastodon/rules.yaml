@@ -23,6 +23,9 @@ evolved_vehicle_warmastodon:
 		Weapon: evolved_vehicle_warmastodon
 	Turreted:
 		TurnSpeed: 80
+	# Walk cycle uses per-frame MOBD anchors; keep the turret pinned to the idle mount so it does not jitter.
+	WithOffsetsSpriteTurret:
+		StableTurretEmbeddedOffsetWhenMoving: true
 	AdvancedSelectionDecorations:
 		Offset: 0,-20
 	Veterancy:

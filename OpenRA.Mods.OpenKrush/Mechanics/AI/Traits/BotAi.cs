@@ -144,7 +144,7 @@ public class BotAiInfo : ConditionalTraitInfo
 	public int AttackWaveCooldownRandomTicksMax = 1000;
 
 	[Desc("When true, pick a non-bot enemy as the attack target when one exists.")]
-	public bool PreferNonBotTargets = true;
+	public bool PreferNonBotTargets = false;
 
 	[Desc("If true, periodically react to home threats: send idle field units to defend (reinforce), and if the raid is not winning, Move-order away teams back. Uses Tactical* radii and ratios.")]
 	public bool TacticalDefenceEnabled = true;
