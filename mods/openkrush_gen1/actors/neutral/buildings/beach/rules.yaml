@@ -16,7 +16,7 @@ beach_a:
 			Radius: 1000
 	Selectable:
 		Bounds: 2048, 2048, 0, 0
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieWall
 		EmptyWeapon: dieWall
 	RenderSprites:

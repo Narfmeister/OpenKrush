@@ -31,6 +31,7 @@ public class ResearchDurationInfo : TraitInfo, ILobbyOptions
 			values.Add((i * 50).ToString(), $"{i * 50}%");
 
 		yield return new(
+			mapPreview,
 			ResearchDurationInfo.Id,
 			"Duration",
 			"Research duration.",
@@ -38,8 +39,7 @@ public class ResearchDurationInfo : TraitInfo, ILobbyOptions
 			0,
 			new ReadOnlyDictionary<string, string>(values),
 			"100",
-			false,
-			ResearchUtils.LobbyOptionsCategory
+			false
 		);
 	}
 

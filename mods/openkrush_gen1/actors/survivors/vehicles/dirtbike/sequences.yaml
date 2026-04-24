@@ -1,17 +1,22 @@
 survivors_vehicle_dirtbike:
 	Inherits@muzzle: ^muzzle_16_directions
-	idle: sprites.lvl|Bike.mobd
+	idle:
+		Filename: sprites.lvl|Bike.mobd
 		Facings: -16
-	shoot: sprites.lvl|Bike.mobd
+	shoot:
+		Filename: sprites.lvl|Bike.mobd
 		Start: 16
 		Length: 2
 		Tick: 120
 		Facings: -16
-	aim: sprites.lvl|Bike.mobd
+	aim:
+		Filename: sprites.lvl|Bike.mobd
 		Start: 16
 		Stride: 2
 		Facings: -16
-	move: sprites.lvl|Bike.mobd
+	move:
+		Filename: sprites.lvl|Bike.mobd
 		Start: 48
 		Facings: -16
-	icon: actors/survivors/vehicles/dirtbike/icon.png
+	icon:
+		Filename: actors/survivors/vehicles/dirtbike/icon.png

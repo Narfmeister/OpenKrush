@@ -1,63 +1,78 @@
 neutral_building_hut_a:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 5
 
 neutral_building_hut_a_rubble:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		ZOffset: -1000
 
 neutral_building_hut_b:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 6
 
 neutral_building_hut_b_rubble:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 1
 		ZOffset: -1000
 
 neutral_building_hut_c:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 7
 
 neutral_building_hut_c_rubble:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 2
 		ZOffset: -1000
 
 neutral_building_hut_d:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 8
 
 neutral_building_hut_d_rubble:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 3
 		ZOffset: -1000
 
 neutral_building_hut_e:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 9
 
 neutral_building_hut_e_rubble:
-	idle: sprites.lvl|Hut.mobd
+	idle:
+		Filename: sprites.lvl|Hut.mobd
 		Start: 4
 		ZOffset: -1000
 
 neutral_building_hut_f:
-	idle: actors/neutral/buildings/hut/frames.png
+	idle:
+		Filename: actors/neutral/buildings/hut/frames.png
 
 neutral_building_hut_g:
-	idle: actors/neutral/buildings/hut/frames2.png
+	idle:
+		Filename: actors/neutral/buildings/hut/frames2.png
 
 neutral_building_hut_g_rubble:
-	idle: actors/neutral/buildings/hut/frames2.png
+	idle:
+		Filename: actors/neutral/buildings/hut/frames2.png
 		Start: 2
 		ZOffset: -1000
 
 neutral_building_hut_h:
-	idle: actors/neutral/buildings/hut/frames2.png
+	idle:
+		Filename: actors/neutral/buildings/hut/frames2.png
 		Start: 1
 
 neutral_building_hut_h_rubble:
-	idle: actors/neutral/buildings/hut/frames2.png
+	idle:
+		Filename: actors/neutral/buildings/hut/frames2.png
 		Start: 3
 		ZOffset: -1000

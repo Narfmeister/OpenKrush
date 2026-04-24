@@ -1,9 +1,12 @@
 evolved_vehicle_derrick:
-	idle: sprites.lvl|MDerrick.mobd
+	idle:
+		Filename: sprites.lvl|MDerrick.mobd
 		Facings: -16
-	move: sprites.lvl|MDerrick.mobd
+	move:
+		Filename: sprites.lvl|MDerrick.mobd
 		Start: 16
 		Length: 2
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/derrick/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/derrick/icon.png

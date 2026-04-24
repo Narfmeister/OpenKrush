@@ -1,12 +1,16 @@
 survivors_infantry_technician:
 	Inherits@death: ^survivors_infantry_death
-	idle: sprites.lvl|Technician.mobd
+	idle:
+		Filename: sprites.lvl|Technician.mobd
 		Facings: -16
-	move: sprites.lvl|Technician.mobd
+	move:
+		Filename: sprites.lvl|Technician.mobd
 		Start: 16
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/survivors/infantry/technician/frames.png
+	bored:
+		Filename: actors/survivors/infantry/technician/frames.png
 		Tick: 80
-	icon: actors/survivors/infantry/technician/icon.png
+	icon:
+		Filename: actors/survivors/infantry/technician/icon.png

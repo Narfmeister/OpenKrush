@@ -32,6 +32,7 @@ public class OilBurnInfo : TraitInfo, ILobbyOptions
 			values.Add(i.ToString(), $"{i}%");
 
 		yield return new(
+			mapPreview,
 			OilBurnInfo.Id,
 			"Burn",
 			"Percent amount of oil to burn when ignited.",
@@ -39,8 +40,7 @@ public class OilBurnInfo : TraitInfo, ILobbyOptions
 			0,
 			new ReadOnlyDictionary<string, string>(values),
 			"0",
-			false,
-			OilPatchInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

@@ -143,7 +143,7 @@ public class VbcPlayerWidget : ColorBlockWidget
 
 		var scale = Math.Min(this.Bounds.Width / this.video.Width, this.Bounds.Height / this.video.Height);
 		var videoSize = new int2(this.video.Width * scale, this.video.Height * scale);
-		var position = new int2((this.Bounds.Width - videoSize.X) / 2, (this.Bounds.Height - videoSize.Y) / 2) + this.Bounds.Location;
+		var position = new int2((this.Bounds.Width - videoSize.X) / 2, (this.Bounds.Height - videoSize.Y) / 2) + new int2(this.Bounds.X, this.Bounds.Y);
 
 		Game.Renderer.RgbaSpriteRenderer.DrawSprite(this.videoSprite, position, scale);
 	}

@@ -1,30 +1,36 @@
 weapon_blood:
-	blood1: sprites.lvl|Shrapnels.mobd
+	blood1:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 164
 		Length: 1
 		Tick: 120
 		ZOffset: 2500
-	blood2: sprites.lvl|Shrapnels.mobd
+	blood2:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 165
 		Length: 1
 		Tick: 120
 		ZOffset: 2500
-	blood3: sprites.lvl|Shrapnels.mobd
+	blood3:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 166
 		Length: 1
 		Tick: 120
 		ZOffset: 2500
-	blood4: sprites.lvl|Shrapnels.mobd
+	blood4:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 167
 		Length: 3
 		Tick: 120
 		ZOffset: 2500
-	blood5: sprites.lvl|Shrapnels.mobd
+	blood5:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 170
 		Length: 3
 		Tick: 120
 		ZOffset: 2500
-	blood_impact: core/weapons/blood/frames.png
+	blood_impact:
+		Filename: core/weapons/blood/frames.png
 		Length: 4
 		Tick: 120
 		ZOffset: -500

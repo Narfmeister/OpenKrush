@@ -33,7 +33,7 @@ survivors_building_solarpanel:
 		Interval: 50
 		Amount: 20
 	# Building too small for regular explosions.
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieSmallBuilding
 		EmptyWeapon: dieSmallBuilding
 	ExplosionOnDamageTransition@Heavy:

@@ -3,4 +3,9 @@ Metadata:
 	Version: {DEV_VERSION}
 	Hidden: true
 
-LoadScreen:
+FileSystem: DefaultFileSystem
+	Packages:
+		^EngineDir
+		$openkrush: openkrush
+
+LoadScreen: BlankLoadScreen

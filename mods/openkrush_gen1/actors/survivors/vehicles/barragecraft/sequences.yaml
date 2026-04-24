@@ -1,16 +1,21 @@
 survivors_vehicle_barragecraft:
-	projectile: sprites.lvl|Crab.mobd
+	projectile:
+		Filename: sprites.lvl|Crab.mobd
 		Length: 2
 		Tick: 120
 		Facings: -16
 		ZOffset: 2500
-	turret: sprites.lvl|BarrageCraft.mobd
+	turret:
+		Filename: sprites.lvl|BarrageCraft.mobd
 		Start: 16
 		Facings: -16
-	idle: sprites.lvl|BarrageCraft.mobd
+	idle:
+		Filename: sprites.lvl|BarrageCraft.mobd
 		Start: 32
 		Facings: -16
-	move: sprites.lvl|BarrageCraft.mobd
+	move:
+		Filename: sprites.lvl|BarrageCraft.mobd
 		Start: 32
 		Facings: -16
-	icon: actors/survivors/vehicles/barragecraft/icon.png
+	icon:
+		Filename: actors/survivors/vehicles/barragecraft/icon.png

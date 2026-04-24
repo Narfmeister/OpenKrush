@@ -1,23 +1,29 @@
 evolved_infantry_kingzog:
 	Inherits@muzzle: ^muzzle_8_directions
 	Inherits@death: ^evolved_infantry_death
-	idle: sprites.lvl|KingZog.mobd
+	idle:
+		Filename: sprites.lvl|KingZog.mobd
 		Facings: -16
-	aim: sprites.lvl|KingZog.mobd
+	aim:
+		Filename: sprites.lvl|KingZog.mobd
 		Start: 16
 		Stride: 4
 		Facings: -16
-	shoot: sprites.lvl|KingZog.mobd
+	shoot:
+		Filename: sprites.lvl|KingZog.mobd
 		Start: 16
 		Length: 4
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|KingZog.mobd
+	move:
+		Filename: sprites.lvl|KingZog.mobd
 		Start: 80
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/evolved/infantry/kingzog/frames.png
+	bored:
+		Filename: actors/evolved/infantry/kingzog/frames.png
 		Length: 9
 		Tick: 80
-	icon: actors/evolved/infantry/kingzog/icon.png
+	icon:
+		Filename: actors/evolved/infantry/kingzog/icon.png

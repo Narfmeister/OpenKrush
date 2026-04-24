@@ -72,7 +72,7 @@ public class ShrapnelCreateEffectWarhead : CreateEffectWarhead
 			var weaponToLower = this.ShrapnelWeapon.ToLowerInvariant();
 
 			if (!Game.ModData.DefaultRules.Weapons.TryGetValue(weaponToLower, out var weaponInfo))
-				throw new YamlException("Weapons Ruleset does not contain an entry '{0}'".F(weaponToLower));
+				throw new YamlException($"Weapons Ruleset does not contain an entry '{weaponToLower}'");
 
 			var rotation = WRot.FromFacing(world.SharedRandom.Next(1024));
 			var range = world.SharedRandom.Next(this.ShrapnelRange[0].Length, this.ShrapnelRange[1].Length);

@@ -1,24 +1,30 @@
 evolved_vehicle_giantbeetle:
-	projectile: sprites.lvl|Beetle.mobd
+	projectile:
+		Filename: sprites.lvl|Beetle.mobd
 		Length: 4
 		Facings: -16
 		Tick: 120
 		ZOffset: 2500
-	idle: sprites.lvl|Beetle.mobd
+	idle:
+		Filename: sprites.lvl|Beetle.mobd
 		Start: 64
 		Facings: -16
-	move: sprites.lvl|Beetle.mobd
+	move:
+		Filename: sprites.lvl|Beetle.mobd
 		Start: 256
 		Length: 10
 		Tick: 120
 		Facings: -16
-	shoot: sprites.lvl|Beetle.mobd
+	shoot:
+		Filename: sprites.lvl|Beetle.mobd
 		Start: 80
 		Length: 11
 		Tick: 120
 		Facings: -16
-	aim: sprites.lvl|Beetle.mobd
+	aim:
+		Filename: sprites.lvl|Beetle.mobd
 		Start: 80
 		Stride: 11
 		Facings: -16
-	icon: actors/evolved/vehicles/giantbeetle/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/giantbeetle/icon.png

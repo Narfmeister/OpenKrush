@@ -135,7 +135,7 @@
 	MustBeDestroyed:
 		RequiredForShortGame: true
 	# If a building is destroyed, it should play an animation...
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieBuilding
 		EmptyWeapon: dieBuilding
 	ExplosionOnDamageTransition@Heavy:
@@ -214,7 +214,7 @@
 		AreaTypes: defence
 		Adjacent: 4
 	# Towers will show an explosion upon being destroyed.
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieTower
 		EmptyWeapon: dieTower
 	ExplosionOnDamageTransition@Heavy:
@@ -259,7 +259,7 @@
 	-WithSpriteBody:
 	WithWallSpriteBody:
 	# Walls will show an explosion when destroyed.
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieWall
 		EmptyWeapon: dieWall
 	ExplosionOnDamageTransition@Heavy:
@@ -366,7 +366,7 @@
 	# Vehicles have an animation while moving.
 	WithMoveAnimation:
 	# Destroying a vehicle always causes an explosion.
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieVehicle
 		EmptyWeapon: dieVehicle
 	# Group all vehicles in the map editor.
@@ -428,7 +428,7 @@
 	Mobile:
 		Locomotor: vehicleNonCrushing
 	# Uses smaller explosion
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieVehicleLight
 		EmptyWeapon: dieVehicleLight
 
@@ -453,7 +453,7 @@
 	#	Type: Circle
 	#		Radius: 1024
 	# Uses larger explosion
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieVehicleHeavy
 		EmptyWeapon: dieVehicleHeavy
 

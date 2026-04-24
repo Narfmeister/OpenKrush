@@ -33,6 +33,7 @@ public class ResearchModeInfo : TraitInfo, ILobbyOptions
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			ResearchModeInfo.Id,
 			"Mode",
 			"Wether to research a full tech level or a single technology.",
@@ -43,8 +44,7 @@ public class ResearchModeInfo : TraitInfo, ILobbyOptions
 					.ToDictionary(e => e.Key.ToString(), e => e.Value)
 			),
 			ResearchModeInfo.Default.ToString(),
-			false,
-			ResearchUtils.LobbyOptionsCategory
+			false
 		);
 	}
 

@@ -18,7 +18,7 @@ neutral_building_campfire:
 		TargetableOffsets: -700,500,0 # Y,X,Z
 	Selectable:
 		Bounds: 512, 512, 480, 640
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: breakWall
 		EmptyWeapon: breakWall
 		Offset: 500,500,0

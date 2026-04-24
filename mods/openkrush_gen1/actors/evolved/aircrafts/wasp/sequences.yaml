@@ -1,8 +1,10 @@
 evolved_aircraft_wasp:
-	idle: sprites.lvl|Wasp.mobd
+	idle:
+		Filename: sprites.lvl|Wasp.mobd
 		Start: 16
 		Length: 3
 		Tick: 50
 		Facings: -16
 		ZOffset: 3500
-	icon: actors/evolved/aircrafts/wasp/icon.png
+	icon:
+		Filename: actors/evolved/aircrafts/wasp/icon.png

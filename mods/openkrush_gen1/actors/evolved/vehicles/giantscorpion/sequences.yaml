@@ -1,21 +1,27 @@
 evolved_vehicle_giantscorpion:
-	projectile: sprites.lvl|Snot.mobd
+	projectile:
+		Filename: sprites.lvl|Snot.mobd
 		Facings: -16
 		ZOffset: 2500
-	idle: sprites.lvl|Scorpion.mobd
+	idle:
+		Filename: sprites.lvl|Scorpion.mobd
 		Facings: -16
-	aim: sprites.lvl|Scorpion.mobd
+	aim:
+		Filename: sprites.lvl|Scorpion.mobd
 		Start: 16
 		Stride: 4
 		Facings: -16
-	shoot: sprites.lvl|Scorpion.mobd
+	shoot:
+		Filename: sprites.lvl|Scorpion.mobd
 		Start: 16
 		Length: 4
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|Scorpion.mobd
+	move:
+		Filename: sprites.lvl|Scorpion.mobd
 		Start: 80
 		Length: 8
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/giantscorpion/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/giantscorpion/icon.png

@@ -13,8 +13,8 @@
 
 namespace OpenRA.Mods.OpenKrush.Mechanics.DataFromAssets.Graphics;
 
+using Assets.SpriteLoaders;
 using Common.Graphics;
-using Common.SpriteLoaders;
 using JetBrains.Annotations;
 using OpenRA.Graphics;
 
@@ -50,9 +50,17 @@ public class OffsetsSpriteSequenceLoader : DefaultSpriteSequenceLoader
 	{
 	}
 
-	public override ISpriteSequence CreateSequence(ModData modData, string tileSet, SpriteCache cache, string sequence, string animation, MiniYaml info)
+	public override ISpriteSequence CreateSequence(
+		ModData modData,
+		string tileset,
+		SpriteCache cache,
+		string image,
+		string sequence,
+		MiniYaml data,
+		MiniYaml defaults
+	)
 	{
-		return new OffsetsSpriteSequence(modData, tileSet, cache, this, sequence, animation, info);
+		return new OffsetsSpriteSequence(cache, this, image, sequence, data, defaults);
 	}
 }
 
@@ -60,44 +68,82 @@ public sealed class OffsetsSpriteSequence : DefaultSpriteSequence
 {
 	public readonly Dictionary<Sprite, Offset[]> EmbeddedOffsets = new();
 
-	public OffsetsSpriteSequence(
-		ModData modData,
-		string tileSet,
-		SpriteCache cache,
-		ISpriteSequenceLoader loader,
-		string sequence,
-		string animation,
-		MiniYaml info
-	)
-		: base(modData, tileSet, cache, loader, sequence, animation, info)
+	private readonly List<string> pendingFilenames = new();
+
+	public OffsetsSpriteSequence(SpriteCache cache, ISpriteSequenceLoader loader, string image, string sequence, MiniYaml data, MiniYaml defaults)
+		: base(cache, loader, image, sequence, data, defaults)
 	{
-		if (info.Value.EndsWith(".mobd"))
+	}
+
+	// OpenKrush sequences historically embed the asset filename as the YAML node value
+	// (`idle: sprites.lvl|Oil.mobd`). The upstream DefaultSpriteSequence requires an
+	// explicit `Filename:` field, so bridge the two conventions here.
+	protected override IEnumerable<ReservationInfo> ParseFilenames(ModData modData, string tileset, int[] frames, MiniYaml data, MiniYaml defaults)
+	{
+		var filenamePatternNode = data.NodeWithKeyOrDefault(FilenamePattern.Key) ?? defaults.NodeWithKeyOrDefault(FilenamePattern.Key);
+		var filenameField = LoadField(Filename, data, defaults);
+
+		if (!string.IsNullOrEmpty(filenamePatternNode?.Value.Value) || !string.IsNullOrEmpty(filenameField))
 		{
-			var src = this.GetSpriteSrc(modData, tileSet, sequence, animation, info.Value, info.ToDictionary());
-			var offsets = cache.FrameMetadata(src).Get<EmbeddedSpriteOffsets>();
+			var parsed = base.ParseFilenames(modData, tileset, frames, data, defaults).ToArray();
+			foreach (var r in parsed)
+				this.pendingFilenames.Add(r.Filename);
 
-			for (var i = 0; i < this.sprites.Length; i++)
-			{
-				if (this.sprites[i] == null)
-					continue;
-
-				if (offsets.FrameOffsets != null && offsets.FrameOffsets.ContainsKey(i))
-					this.EmbeddedOffsets.Add(this.sprites[i], offsets.FrameOffsets[i]);
-			}
+			return parsed;
 		}
-		else if (info.Value.EndsWith(".png"))
-		{
-			var src = this.GetSpriteSrc(modData, tileSet, sequence, animation, info.Value, info.ToDictionary());
-			var metadata = cache.FrameMetadata(src).Get<PngSheetMetadata>();
 
-			for (var i = 0; i < this.sprites.Length; i++)
+		if (!string.IsNullOrEmpty(data.Value))
+		{
+			var loadFrames = CalculateFrameIndices(start, length, stride ?? length ?? 0, facings, frames, transpose, reverseFacings, shadowStart);
+			this.pendingFilenames.Add(data.Value);
+
+			return new[] { new ReservationInfo(data.Value, loadFrames, frames, default) };
+		}
+
+		var fallback = base.ParseFilenames(modData, tileset, frames, data, defaults).ToArray();
+		foreach (var r in fallback)
+			this.pendingFilenames.Add(r.Filename);
+
+		return fallback;
+	}
+
+	public override void ResolveSprites(SpriteCache cache)
+	{
+		base.ResolveSprites(cache);
+
+		if (this.sprites == null)
+			return;
+
+		foreach (var filename in this.pendingFilenames)
+		{
+			if (string.IsNullOrEmpty(filename))
+				continue;
+
+			if (SpriteMetadataCache.MobdOffsets.TryGetValue(filename, out var mobdOffsets))
 			{
-				if (this.sprites[i] == null || !metadata.Metadata.ContainsKey($"Offsets[{i}]"))
+				if (mobdOffsets.FrameOffsets == null)
 					continue;
 
-				var lines = metadata.Metadata[$"Offsets[{i}]"].Split('|');
-				var convertOffsets = new Func<string[], Offset>(data => new(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2])));
-				this.EmbeddedOffsets.Add(this.sprites[i], lines.Select(t => t.Split(',')).Select(convertOffsets).ToArray());
+				for (var i = 0; i < this.sprites.Length; i++)
+				{
+					if (this.sprites[i] == null)
+						continue;
+
+					if (mobdOffsets.FrameOffsets.TryGetValue(i, out var off))
+						this.EmbeddedOffsets[this.sprites[i]] = off;
+				}
+			}
+			else if (SpriteMetadataCache.PngMetadata.TryGetValue(filename, out var pngMeta))
+			{
+				for (var i = 0; i < this.sprites.Length; i++)
+				{
+					if (this.sprites[i] == null || !pngMeta.Metadata.ContainsKey($"Offsets[{i}]"))
+						continue;
+
+					var lines = pngMeta.Metadata[$"Offsets[{i}]"].Split('|');
+					var convertOffsets = new Func<string[], Offset>(d => new(int.Parse(d[0]), int.Parse(d[1]), int.Parse(d[2])));
+					this.EmbeddedOffsets[this.sprites[i]] = lines.Select(t => t.Split(',')).Select(convertOffsets).ToArray();
+				}
 			}
 		}
 	}

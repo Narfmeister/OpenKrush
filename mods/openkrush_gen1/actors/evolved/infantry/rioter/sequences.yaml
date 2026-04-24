@@ -1,25 +1,32 @@
 evolved_infantry_rioter:
 	Inherits@death: ^evolved_infantry_death
-	idle: sprites.lvl|Rioter.mobd
+	idle:
+		Filename: sprites.lvl|Rioter.mobd
 		Facings: -16
-	aim: sprites.lvl|Rioter.mobd
+	aim:
+		Filename: sprites.lvl|Rioter.mobd
 		Facings: -16
-	shoot: sprites.lvl|Rioter.mobd
+	shoot:
+		Filename: sprites.lvl|Rioter.mobd
 		Start: 16
 		Length: 6
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|Rioter.mobd
+	move:
+		Filename: sprites.lvl|Rioter.mobd
 		Start: 112
 		Length: 6
 		Tick: 120
 		Facings: -16
-	projectile: actors/evolved/infantry/rioter/projectile.png
+	projectile:
+		Filename: actors/evolved/infantry/rioter/projectile.png
 		Length: 8
 		Tick: 60
 		Facings: -8
 		Zoffset: 2500
-	bored: actors/evolved/infantry/rioter/frames.png
+	bored:
+		Filename: actors/evolved/infantry/rioter/frames.png
 		Length: 20
 		Tick: 70
-	icon: actors/evolved/infantry/rioter/icon.png
+	icon:
+		Filename: actors/evolved/infantry/rioter/icon.png

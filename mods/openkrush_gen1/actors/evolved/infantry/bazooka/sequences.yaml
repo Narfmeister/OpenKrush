@@ -1,28 +1,35 @@
 evolved_infantry_bazooka:
 	Inherits@death: ^evolved_infantry_death
-	projectile: sprites.lvl|RocketLauncher.mobd
+	projectile:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Length: 2
 		Tick: 120
 		Facings: -16
 		ZOffset: 2500
-	idle: sprites.lvl|RocketLauncher.mobd
+	idle:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Start: 32
 		Facings: -16
-	aim: sprites.lvl|RocketLauncher.mobd
+	aim:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Start: 48
 		Stride: 5
 		Facings: -16
-	shoot: sprites.lvl|RocketLauncher.mobd
+	shoot:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Start: 48
 		Length: 5
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|RocketLauncher.mobd
+	move:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Start: 128
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/evolved/infantry/bazooka/frames.png
+	bored:
+		Filename: actors/evolved/infantry/bazooka/frames.png
 		Length: 14
 		Tick: 80
-	icon: actors/evolved/infantry/bazooka/icon.png
+	icon:
+		Filename: actors/evolved/infantry/bazooka/icon.png

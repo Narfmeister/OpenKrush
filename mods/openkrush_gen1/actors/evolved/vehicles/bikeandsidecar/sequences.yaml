@@ -1,13 +1,17 @@
 evolved_vehicle_bikeandsidecar:
 	Inherits@muzzle: ^muzzle_16_directions
-	turret: sprites.lvl|Sidecar.mobd
+	turret:
+		Filename: sprites.lvl|Sidecar.mobd
 		Facings: -16
-	idle: sprites.lvl|Sidecar.mobd
+	idle:
+		Filename: sprites.lvl|Sidecar.mobd
 		Start: 16
 		Facings: -16
-	move: sprites.lvl|Sidecar.mobd
+	move:
+		Filename: sprites.lvl|Sidecar.mobd
 		Start: 32
 		Length: 2
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/bikeandsidecar/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/bikeandsidecar/icon.png

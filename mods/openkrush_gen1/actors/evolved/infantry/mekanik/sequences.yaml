@@ -1,13 +1,17 @@
 evolved_infantry_mekanik:
 	Inherits@death: ^evolved_infantry_death
-	idle: sprites.lvl|Mekanik.mobd
+	idle:
+		Filename: sprites.lvl|Mekanik.mobd
 		Facings: -16
-	move: sprites.lvl|Mekanik.mobd
+	move:
+		Filename: sprites.lvl|Mekanik.mobd
 		Start: 16
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/evolved/infantry/mekanik/frames.png
+	bored:
+		Filename: actors/evolved/infantry/mekanik/frames.png
 		Length: 11
 		Tick: 80
-	icon: actors/evolved/infantry/mekanik/icon.png
+	icon:
+		Filename: actors/evolved/infantry/mekanik/icon.png

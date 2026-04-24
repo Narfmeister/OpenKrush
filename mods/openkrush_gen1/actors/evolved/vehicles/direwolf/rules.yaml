@@ -27,11 +27,11 @@ evolved_vehicle_direwolf:
 		Offset: 0,-2
 	Veterancy:
 	# Dire Wolf actualy has death animations and does not explode.
-	ThrowsShrapnel:
+	FireProjectilesOnDeath:
 		Weapons: weapon_blood1, weapon_blood2, weapon_blood3, weapon_blood4, weapon_blood5
 		Pieces: 1, 1
 		Range: 0c512, 1c512
-	-Explodes:
+	-FireWarheadsOnDeath:
 	-FrozenOnDeath:
 	WithDeathAnimation:
 		CrushedSequencePalette:

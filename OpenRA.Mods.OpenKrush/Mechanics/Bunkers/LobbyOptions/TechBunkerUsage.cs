@@ -34,6 +34,7 @@ public class TechBunkerUsageInfo : TraitInfo, ILobbyOptions
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			TechBunkerUsageInfo.Id,
 			"Usage",
 			"How a TechBunker can be opened.",
@@ -44,8 +45,7 @@ public class TechBunkerUsageInfo : TraitInfo, ILobbyOptions
 					.ToDictionary(e => e.Key.ToString(), e => e.Value)
 			),
 			TechBunkerUsageInfo.Default.ToString(),
-			false,
-			TechBunkerInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

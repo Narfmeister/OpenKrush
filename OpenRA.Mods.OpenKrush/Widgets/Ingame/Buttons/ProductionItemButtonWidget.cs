@@ -17,6 +17,7 @@ using Common;
 using Common.Traits;
 using Common.Widgets;
 using Graphics;
+using OpenRA.Widgets;
 using Primitives;
 
 public class ProductionItemButtonWidget : SidebarButtonWidget
@@ -159,7 +160,7 @@ public class ProductionItemButtonWidget : SidebarButtonWidget
 
 			if (this.actorPreviewWidget == null)
 			{
-				this.actorPreviewWidget = new(this.Sidebar.IngameUi.WorldRenderer) { Animate = true };
+				this.actorPreviewWidget = new(Game.ModData, this.Sidebar.IngameUi.WorldRenderer) { Animate = true };
 
 				this.actorPreviewWidget.SetPreview(
 					this.Sidebar.IngameUi.World.Map.Rules.Actors[this.Item],
@@ -205,10 +206,10 @@ public class ProductionItemButtonWidget : SidebarButtonWidget
 
 			if (previewWidget != null)
 			{
-				previewWidget.Bounds = this.RenderBounds;
+				previewWidget.Bounds = new WidgetBounds(this.RenderBounds.X, this.RenderBounds.Y, this.RenderBounds.Width, this.RenderBounds.Height);
 
 				Game.Renderer.EnableScissor(
-					new(
+					new Rectangle(
 						this.RenderBounds.X + this.Sidebar.ButtonArea.X,
 						this.RenderBounds.Y + this.Sidebar.ButtonArea.Y,
 						this.Sidebar.ButtonArea.Width,

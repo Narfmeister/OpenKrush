@@ -1,75 +1,98 @@
 bunker_vehicles_gorttherobot:
-	idle: actors/bunker/vehicles/gorttherobot/frames.png
+	idle:
+		Filename: actors/bunker/vehicles/gorttherobot/frames.png
 		Facings: -16
-	move: actors/bunker/vehicles/gorttherobot/frames.png
+	move:
+		Filename: actors/bunker/vehicles/gorttherobot/frames.png
 		Start: 16
 		Length: 11
 		Tick: 120
 		Facings: -16
-	turret: actors/bunker/vehicles/gorttherobot/frames.png
+	turret:
+		Filename: actors/bunker/vehicles/gorttherobot/frames.png
 		Start: 192
 		Facings: -16
-	shoot: actors/bunker/vehicles/gorttherobot/frames.png
+	shoot:
+		Filename: actors/bunker/vehicles/gorttherobot/frames.png
 		Start: 208
 		Length: 12
 		Tick: 50
 		Facings: -16
-	icon: actors/bunker/vehicles/gorttherobot/icon.png
+	icon:
+		Filename: actors/bunker/vehicles/gorttherobot/icon.png
 
 bunker_vehicles_gorttherobot_small:
-	electrified1: sprites.lvl|Extras.mobd
+	electrified1:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 344
 		ZOffset: 1500
-	electrified2: sprites.lvl|Extras.mobd
+	electrified2:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 345
 		ZOffset: 1500
-	electrified3: sprites.lvl|Extras.mobd
+	electrified3:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 346
 		ZOffset: 1500
-	electrified4: sprites.lvl|Extras.mobd
+	electrified4:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 347
 		ZOffset: 1500
-	electrified5: sprites.lvl|Extras.mobd
+	electrified5:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 348
 		ZOffset: 1500
-	electrified6: sprites.lvl|Extras.mobd
+	electrified6:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 349
 		ZOffset: 1500
-	electrified7: sprites.lvl|Extras.mobd
+	electrified7:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 350
 		ZOffset: 1500
-	electrified8: sprites.lvl|Extras.mobd
+	electrified8:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 351
 		ZOffset: 1500
-	electrified9: sprites.lvl|Extras.mobd
+	electrified9:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 352
 		ZOffset: 1500
 
 bunker_vehicles_gorttherobot_large:
-	electrified1: sprites.lvl|Extras.mobd
+	electrified1:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 353
 		ZOffset: 1500
-	electrified2: sprites.lvl|Extras.mobd
+	electrified2:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 354
 		ZOffset: 1500
-	electrified3: sprites.lvl|Extras.mobd
+	electrified3:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 355
 		ZOffset: 1500
-	electrified4: sprites.lvl|Extras.mobd
+	electrified4:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 356
 		ZOffset: 1500
-	electrified5: sprites.lvl|Extras.mobd
+	electrified5:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 357
 		ZOffset: 1500
-	electrified6: sprites.lvl|Extras.mobd
+	electrified6:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 358
 		ZOffset: 1500
-	electrified7: sprites.lvl|Extras.mobd
+	electrified7:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 359
 		ZOffset: 1500
-	electrified8: sprites.lvl|Extras.mobd
+	electrified8:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 360
 		ZOffset: 1500
-	electrified9: sprites.lvl|Extras.mobd
+	electrified9:
+		Filename: sprites.lvl|Extras.mobd
 		Start: 361
 		ZOffset: 1500

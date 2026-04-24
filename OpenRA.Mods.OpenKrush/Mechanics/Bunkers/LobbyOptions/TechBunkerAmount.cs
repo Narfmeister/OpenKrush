@@ -41,6 +41,7 @@ public class TechBunkerAmountInfo : TraitInfo, ILobbyOptions
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			TechBunkerAmountInfo.Id,
 			"Amount",
 			"How many TechBunkers should be spawned on the map.",
@@ -56,8 +57,7 @@ public class TechBunkerAmountInfo : TraitInfo, ILobbyOptions
 				}.ToDictionary(e => e.Key.ToString(), e => e.Value)
 			),
 			TechBunkerAmountInfo.Default.ToString(),
-			false,
-			TechBunkerInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

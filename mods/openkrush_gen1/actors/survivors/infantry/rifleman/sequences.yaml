@@ -1,22 +1,28 @@
 survivors_infantry_rifleman:
 	Inherits@muzzle: ^muzzle_8_directions
 	Inherits@death: ^survivors_infantry_death
-	idle: sprites.lvl|Infantry.mobd
+	idle:
+		Filename: sprites.lvl|Infantry.mobd
 		Facings: -16
-	aim: sprites.lvl|Infantry.mobd
+	aim:
+		Filename: sprites.lvl|Infantry.mobd
 		Start: 16
 		Stride: 4
 		Facings: -16
-	shoot: sprites.lvl|Infantry.mobd
+	shoot:
+		Filename: sprites.lvl|Infantry.mobd
 		Start: 16
 		Length: 4
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|Infantry.mobd
+	move:
+		Filename: sprites.lvl|Infantry.mobd
 		Start: 80
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/survivors/infantry/rifleman/frames.png
+	bored:
+		Filename: actors/survivors/infantry/rifleman/frames.png
 		Tick: 80
-	icon: actors/survivors/infantry/rifleman/icon.png
+	icon:
+		Filename: actors/survivors/infantry/rifleman/icon.png

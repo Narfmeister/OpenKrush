@@ -1,27 +1,34 @@
 survivors_infantry_rpglauncher:
 	Inherits@death: ^survivors_infantry_death
-	projectile: sprites.lvl|RocketLauncher.mobd
+	projectile:
+		Filename: sprites.lvl|RocketLauncher.mobd
 		Length: 2
 		Tick: 120
 		Facings: -16
 		ZOffset: 2500
-	idle: sprites.lvl|RocketInfantry.mobd
+	idle:
+		Filename: sprites.lvl|RocketInfantry.mobd
 		Facings: -16
-	aim: sprites.lvl|RocketInfantry.mobd
+	aim:
+		Filename: sprites.lvl|RocketInfantry.mobd
 		Start: 16
 		Stride: 5
 		Facings: -16
-	shoot: sprites.lvl|RocketInfantry.mobd
+	shoot:
+		Filename: sprites.lvl|RocketInfantry.mobd
 		Start: 16
 		Length: 5
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|RocketInfantry.mobd
+	move:
+		Filename: sprites.lvl|RocketInfantry.mobd
 		Start: 96
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/survivors/infantry/rpglauncher/frames.png
+	bored:
+		Filename: actors/survivors/infantry/rpglauncher/frames.png
 		Length: 16
 		Tick: 90
-	icon: actors/survivors/infantry/rpglauncher/icon.png
+	icon:
+		Filename: actors/survivors/infantry/rpglauncher/icon.png

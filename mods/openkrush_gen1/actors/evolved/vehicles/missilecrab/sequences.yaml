@@ -1,18 +1,23 @@
 evolved_vehicle_missilecrab:
-	projectile: sprites.lvl|Crab.mobd
+	projectile:
+		Filename: sprites.lvl|Crab.mobd
 		Length: 2
 		Tick: 120
 		Facings: -16
 		ZOffset: 2500
-	turret: sprites.lvl|Crab.mobd
+	turret:
+		Filename: sprites.lvl|Crab.mobd
 		Start: 32
 		Facings: -16
-	idle: sprites.lvl|Crab.mobd
+	idle:
+		Filename: sprites.lvl|Crab.mobd
 		Start: 48
 		Facings: -16
-	move: sprites.lvl|Crab.mobd
+	move:
+		Filename: sprites.lvl|Crab.mobd
 		Start: 64
 		Length: 9
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/missilecrab/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/missilecrab/icon.png

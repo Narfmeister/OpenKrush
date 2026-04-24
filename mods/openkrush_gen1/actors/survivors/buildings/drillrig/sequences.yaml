@@ -1,36 +1,45 @@
 survivors_building_drillrig:
-	animation: sprites.lvl|SRig.mobd
+	animation:
+		Filename: sprites.lvl|SRig.mobd
 		Length: 6
 		Tick: 160
 		Offset: 0,-32
 		ZOffset: -500
-	damaged-idle: sprites.lvl|SRig.mobd
+	damaged-idle:
+		Filename: sprites.lvl|SRig.mobd
 		Start: 6
 		Offset: 0,-32
 		ZOffset: -500
-	idle: sprites.lvl|SRig.mobd
+	idle:
+		Filename: sprites.lvl|SRig.mobd
 		Start: 7
 		Offset: 0,-32
 		ZOffset: -500
-	deploy: sprites.lvl|SRig.mobd
+	deploy:
+		Filename: sprites.lvl|SRig.mobd
 		Start: 8
 		Length: 6
 		Tick: 60
 		Offset: 0,-32
 		ZOffset: -500
-	critical-idle: actors/survivors/buildings/drillrig/frames.png
+	critical-idle:
+		Filename: actors/survivors/buildings/drillrig/frames.png
 		Offset: 0,-32
 		ZOffset: -500
-	make0: actors/survivors/buildings/drillrig/frames.png
+	make0:
+		Filename: actors/survivors/buildings/drillrig/frames.png
 		Start: 1
 		Offset: 0,-32
 		ZOffset: -500
-	make1: actors/survivors/buildings/drillrig/frames.png
+	make1:
+		Filename: actors/survivors/buildings/drillrig/frames.png
 		Start: 2
 		Offset: 0,-32
 		ZOffset: -500
-	make2: actors/survivors/buildings/drillrig/frames.png
+	make2:
+		Filename: actors/survivors/buildings/drillrig/frames.png
 		Start: 3
 		Offset: 0,-32
 		ZOffset: -500
-	icon: actors/survivors/buildings/drillrig/icon.png
+	icon:
+		Filename: actors/survivors/buildings/drillrig/icon.png

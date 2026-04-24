@@ -16,7 +16,7 @@ Container@PLAYER_WIDGETS:
 		# TODO merge into our ui!
 		Container@COMMAND_BAR:
 			Logic: CommandBarLogic
-			Y: WINDOW_BOTTOM
+			Y: WINDOW_HEIGHT
 			Children:
 				LogicKeyListener@MODIFIER_OVERRIDES:
 				Button@ATTACK_MOVE:
@@ -78,7 +78,7 @@ Container@PLAYER_WIDGETS:
 		# TODO merge into our ui!
 		Container@STANCE_BAR:
 			Logic: StanceSelectorLogic
-			Y: WINDOW_BOTTOM
+			Y: WINDOW_HEIGHT
 			Children:
 				Button@STANCE_ATTACKANYTHING:
 					Key: StanceAttackAnything
@@ -114,20 +114,20 @@ Container@PLAYER_WIDGETS:
 							ImageName: hold-fire
 		Container@MUTE_INDICATOR:
 			Logic: MuteIndicatorLogic
-			X: WINDOW_RIGHT - WIDTH - 231
+			X: WINDOW_WIDTH - WIDTH - 231
 			Y: 5
 			Width: 200
 			Height: 25
 			Children:
 				Image@ICON:
-					X: PARENT_RIGHT - WIDTH
+					X: PARENT_WIDTH - WIDTH
 					Y: 1
 					Width: 24
 					Height: 24
 					ImageCollection: sidebar-bits
 					ImageName: indicator-muted
 				Label@LABEL:
-					Width: PARENT_RIGHT - 30
+					Width: PARENT_WIDTH - 30
 					Height: 25
 					Align: Right
 					Text: Audio Muted

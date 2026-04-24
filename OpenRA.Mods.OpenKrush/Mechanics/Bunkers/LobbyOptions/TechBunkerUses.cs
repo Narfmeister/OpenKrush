@@ -34,6 +34,7 @@ public class TechBunkerUsesInfo : TraitInfo, ILobbyOptions
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			TechBunkerUsesInfo.Id,
 			"Uses",
 			"How many times a TechBunker can be used.",
@@ -44,8 +45,7 @@ public class TechBunkerUsesInfo : TraitInfo, ILobbyOptions
 					.ToDictionary(e => e.Key.ToString(), e => e.Value)
 			),
 			TechBunkerUsesInfo.Default.ToString(),
-			false,
-			TechBunkerInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

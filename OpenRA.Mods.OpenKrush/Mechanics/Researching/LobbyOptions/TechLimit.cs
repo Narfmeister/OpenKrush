@@ -45,6 +45,7 @@ public class TechLimitInfo : TraitInfo, ILobbyOptions
 			values.Add(i.ToString(), i.ToString());
 
 		yield return new(
+			mapPreview,
 			TechLimitInfo.Id,
 			"Limit",
 			"Maximum tech level.",
@@ -52,8 +53,7 @@ public class TechLimitInfo : TraitInfo, ILobbyOptions
 			0,
 			new ReadOnlyDictionary<string, string>(values),
 			this.MaxTechLevel.ToString(),
-			false,
-			ResearchUtils.LobbyOptionsCategory
+			false
 		);
 	}
 

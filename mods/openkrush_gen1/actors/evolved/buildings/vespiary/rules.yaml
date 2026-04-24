@@ -29,7 +29,7 @@ evolved_building_vespiary:
 		Bounds: 4096, 3072, 0, 0
 	AdvancedAirstrikePower:
 		UnitType: evolved_aircraft_wasp
-		Description: Wasp Bomber
+		Name: Wasp Bomber
 		IconImage: evolved_aircraft_wasp
 		ChargeInterval: 7500
 		EndChargeSound: surv.slv|136.wav

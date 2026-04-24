@@ -1,9 +1,12 @@
 evolved_vehicle_clanhallwagon:
-	idle: sprites.lvl|ClanhallWagon.mobd
+	idle:
+		Filename: sprites.lvl|ClanhallWagon.mobd
 		Facings: -16
-	move: sprites.lvl|ClanhallWagon.mobd
+	move:
+		Filename: sprites.lvl|ClanhallWagon.mobd
 		Start: 16
 		Length: 2
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/clanhallwagon/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/clanhallwagon/icon.png

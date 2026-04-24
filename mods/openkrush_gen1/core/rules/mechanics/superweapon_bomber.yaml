@@ -1,5 +1,6 @@
 ^superweapon_bomber:
 	AttackBomber:
+		FacingTolerance: 8
 	OffsetsArmament:
 		MuzzlePalette:
 	AmmoPool:

@@ -27,14 +27,13 @@ public enum SaboteurUsageType
 [Desc("What happens when a saboteur conquers a building.")]
 public class SaboteurUsageInfo : TraitInfo, ILobbyOptions
 {
-	private const string LobbyOptionsCategory = "saboteur";
-
 	public const string Id = "SaboteurUsage";
 	public const SaboteurUsageType Default = SaboteurUsageType.Conquer;
 
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			SaboteurUsageInfo.Id,
 			"Usage",
 			"What happens when a saboteur conquers a building.",
@@ -47,8 +46,7 @@ public class SaboteurUsageInfo : TraitInfo, ILobbyOptions
 				)
 			),
 			SaboteurUsageInfo.Default.ToString(),
-			false,
-			SaboteurUsageInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

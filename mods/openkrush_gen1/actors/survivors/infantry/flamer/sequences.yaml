@@ -1,23 +1,29 @@
 survivors_infantry_flamer:
 	Inherits@muzzle: ^muzzle_flamethrower
 	Inherits@death: ^survivors_infantry_death
-	idle: sprites.lvl|Flamer.mobd
+	idle:
+		Filename: sprites.lvl|Flamer.mobd
 		Facings: -16
-	aim: sprites.lvl|Flamer.mobd
+	aim:
+		Filename: sprites.lvl|Flamer.mobd
 		Start: 16
 		Stride: 4
 		Facings: -16
-	shoot: sprites.lvl|Flamer.mobd
+	shoot:
+		Filename: sprites.lvl|Flamer.mobd
 		Start: 16
 		Length: 4
 		Tick: 120
 		Facings: -16
-	move: sprites.lvl|Flamer.mobd
+	move:
+		Filename: sprites.lvl|Flamer.mobd
 		Start: 80
 		Length: 6
 		Tick: 120
 		Facings: -16
-	bored: actors/survivors/infantry/flamer/frames.png
+	bored:
+		Filename: actors/survivors/infantry/flamer/frames.png
 		Length: 16
 		Tick: 80
-	icon: actors/survivors/infantry/flamer/icon.png
+	icon:
+		Filename: actors/survivors/infantry/flamer/icon.png

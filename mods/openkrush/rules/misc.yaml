@@ -171,6 +171,8 @@ EditorWorld:
 	EditorSelectionLayer:
 	# Cursor attached stuff.
 	EditorCursorLayer:
+	# Marker layer for planning overlays.
+	MarkerLayerOverlay:
 	# Undo / Redo support.
 	EditorActionManager:
 	# Displays where buildings can be build.

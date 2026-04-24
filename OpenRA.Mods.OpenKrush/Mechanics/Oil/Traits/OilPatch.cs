@@ -23,8 +23,6 @@ using Primitives;
 [Desc("Oilpatch implementation.")]
 public class OilPatchInfo : TraitInfo, IRulesetLoaded, IHealthInfo
 {
-	public const string LobbyOptionsCategory = "oilpatch";
-
 	[Desc("How many oil will be burned per tick.")]
 	public readonly int BurnAmount = 5;
 
@@ -59,7 +57,7 @@ public class OilPatchInfo : TraitInfo, IRulesetLoaded, IHealthInfo
 		var weaponToLower = this.Weapon.ToLowerInvariant();
 
 		if (!rules.Weapons.TryGetValue(weaponToLower, out var weapon))
-			throw new YamlException("Weapons Ruleset does not contain an entry '{0}'".F(weaponToLower));
+			throw new YamlException($"Weapons Ruleset does not contain an entry '{weaponToLower}'");
 
 		this.WeaponInfo = weapon;
 	}

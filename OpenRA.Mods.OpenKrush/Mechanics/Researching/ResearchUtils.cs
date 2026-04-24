@@ -17,8 +17,6 @@ using Traits;
 
 public static class ResearchUtils
 {
-	public const string LobbyOptionsCategory = "research";
-
 	public static ResearchAction GetAction(Actor self, Actor target)
 	{
 		if (target.IsDead || target.Disposed || !target.IsInWorld)

@@ -1,10 +1,14 @@
 neutral_building_drillrig:
-	idle: actors/neutral/buildings/drillrig/frames.png
-	damaged-idle: actors/neutral/buildings/drillrig/frames.png
+	idle:
+		Filename: actors/neutral/buildings/drillrig/frames.png
+	damaged-idle:
+		Filename: actors/neutral/buildings/drillrig/frames.png
 		Start: 1
-	critical-idle: actors/neutral/buildings/drillrig/frames.png
+	critical-idle:
+		Filename: actors/neutral/buildings/drillrig/frames.png
 		Start: 2
-	animation: actors/neutral/buildings/drillrig/frames.png
+	animation:
+		Filename: actors/neutral/buildings/drillrig/frames.png
 		Start: 3
 		Length: 8
 		Tick: 120

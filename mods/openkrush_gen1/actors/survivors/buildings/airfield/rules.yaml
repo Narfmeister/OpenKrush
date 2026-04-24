@@ -29,7 +29,7 @@ survivors_building_airfield:
 		Bounds: 3072, 3072, 0, -512
 	AdvancedAirstrikePower:
 		UnitType: survivors_aircraft_bomber
-		Description: Wilbur Bomber
+		Name: Wilbur Bomber
 		IconImage: survivors_aircraft_bomber
 		Icon: icon
 		ChargeInterval: 7500

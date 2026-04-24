@@ -1,17 +1,22 @@
 survivors_vehicle_anacondatank:
 	Inherits@muzzle: ^muzzle_16_directions
-	projectile: sprites.lvl|Tank.mobd
+	projectile:
+		Filename: sprites.lvl|Tank.mobd
 		Facings: -16
 		ZOffset: 2500
-	turret: sprites.lvl|Tank.mobd
+	turret:
+		Filename: sprites.lvl|Tank.mobd
 		Start: 16
 		Facings: -16
-	idle: sprites.lvl|Tank.mobd
+	idle:
+		Filename: sprites.lvl|Tank.mobd
 		Start: 32
 		Facings: -16
-	move: sprites.lvl|Tank.mobd
+	move:
+		Filename: sprites.lvl|Tank.mobd
 		Start: 48
 		Length: 2
 		Tick: 120
 		Facings: -16
-	icon: actors/survivors/vehicles/anacondatank/icon.png
+	icon:
+		Filename: actors/survivors/vehicles/anacondatank/icon.png

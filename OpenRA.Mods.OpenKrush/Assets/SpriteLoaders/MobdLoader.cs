@@ -14,6 +14,7 @@
 namespace OpenRA.Mods.OpenKrush.Assets.SpriteLoaders;
 
 using Common.Graphics;
+using Common.SpriteLoaders;
 using FileFormats;
 using Graphics;
 using JetBrains.Annotations;
@@ -88,10 +89,13 @@ public class MobdLoader : ISpriteLoader
 
 		frames = tmp.Select(e => e as ISpriteFrame).ToArray();
 
-		metadata = new() { new EmbeddedSpriteOffsets(points) };
+		var embeddedOffsets = new EmbeddedSpriteOffsets(points);
+		metadata = new() { embeddedOffsets };
 
 		if (palette != null)
 			metadata.Add(new EmbeddedSpritePalette(palette));
+
+		SpriteMetadataCache.MobdOffsets[filename] = embeddedOffsets;
 
 		return true;
 	}

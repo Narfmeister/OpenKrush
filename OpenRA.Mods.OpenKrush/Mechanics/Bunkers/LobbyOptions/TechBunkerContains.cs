@@ -35,6 +35,7 @@ public class TechBunkerContainsInfo : TraitInfo, ILobbyOptions
 	IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview mapPreview)
 	{
 		yield return new(
+			mapPreview,
 			TechBunkerContainsInfo.Id,
 			"Contains",
 			"What a TechBunker may contain.",
@@ -47,8 +48,7 @@ public class TechBunkerContainsInfo : TraitInfo, ILobbyOptions
 				}.ToDictionary(e => e.Key.ToString(), e => e.Value)
 			),
 			TechBunkerContainsInfo.Default.ToString(),
-			false,
-			TechBunkerInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

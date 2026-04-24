@@ -1,29 +1,37 @@
 survivors_building_researchlab:
-	animation: sprites.lvl|ResearchLab.mobd
+	animation:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Length: 4
 		Tick: 180
 		Offset: -1,-32
-	damaged-idle: sprites.lvl|ResearchLab.mobd
+	damaged-idle:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Start: 4
 		Offset: -1,-32
 		ZOffset: -500
-	idle: sprites.lvl|ResearchLab.mobd
+	idle:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Start: 5
 		Offset: -1,-32
 		ZOffset: -500
-	make0: sprites.lvl|ResearchLab.mobd
+	make0:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Start: 6
 		Offset: -1,-32
 		ZOffset: -500
-	make1: sprites.lvl|ResearchLab.mobd
+	make1:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Start: 7
 		Offset: -1,-32
 		ZOffset: -500
-	make2: sprites.lvl|ResearchLab.mobd
+	make2:
+		Filename: sprites.lvl|ResearchLab.mobd
 		Start: 8
 		Offset: -1,-32
 		ZOffset: -500
-	critical-idle: actors/survivors/buildings/researchlab/frames.png
+	critical-idle:
+		Filename: actors/survivors/buildings/researchlab/frames.png
 		Offset: -1,-32
 		ZOffset: -500
-	icon: actors/survivors/buildings/researchlab/icon.png
+	icon:
+		Filename: actors/survivors/buildings/researchlab/icon.png

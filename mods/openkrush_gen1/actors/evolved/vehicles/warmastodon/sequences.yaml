@@ -1,16 +1,21 @@
 evolved_vehicle_warmastodon:
-	projectile: sprites.lvl|Mastodon.mobd
+	projectile:
+		Filename: sprites.lvl|Mastodon.mobd
 		Facings: -16
 		ZOffset: 2500
-	turret: sprites.lvl|Mastodon.mobd
+	turret:
+		Filename: sprites.lvl|Mastodon.mobd
 		Start: 16
 		Facings: -16
-	idle: sprites.lvl|Mastodon.mobd
+	idle:
+		Filename: sprites.lvl|Mastodon.mobd
 		Start: 32
 		Facings: -16
-	move: sprites.lvl|Mastodon.mobd
+	move:
+		Filename: sprites.lvl|Mastodon.mobd
 		Start: 48
 		Length: 10
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/warmastodon/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/warmastodon/icon.png

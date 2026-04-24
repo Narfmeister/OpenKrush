@@ -85,7 +85,7 @@ public class Vbc : IVideo
 		var audio = new MemoryStream();
 
 		foreach (var frame in this.frames.Where(f => f.Audio != null))
-			audio.WriteArray(frame.Audio);
+			audio.Write(frame.Audio!);
 
 		this.AudioData = audio.ToArray();
 		var a = audio.Length / (this.SampleRate * 1 * (this.SampleBits / 8));

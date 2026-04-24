@@ -1,13 +1,17 @@
 evolved_vehicle_monstertruck:
 	Inherits@muzzle: ^muzzle_16_directions
-	turret: sprites.lvl|MonsterTruck.mobd
+	turret:
+		Filename: sprites.lvl|MonsterTruck.mobd
 		Facings: -16
-	idle: sprites.lvl|MonsterTruck.mobd
+	idle:
+		Filename: sprites.lvl|MonsterTruck.mobd
 		Start: 16
 		Facings: -16
-	move: sprites.lvl|MonsterTruck.mobd
+	move:
+		Filename: sprites.lvl|MonsterTruck.mobd
 		Start: 32
 		Length: 2
 		Tick: 120
 		Facings: -16
-	icon: actors/evolved/vehicles/monstertruck/icon.png
+	icon:
+		Filename: actors/evolved/vehicles/monstertruck/icon.png

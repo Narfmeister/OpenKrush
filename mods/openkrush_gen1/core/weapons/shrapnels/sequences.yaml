@@ -1,45 +1,54 @@
 weapon_shrapnels:
-	debris1: sprites.lvl|Shrapnels.mobd
+	debris1:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 0
 		Length: 8
 		Tick: 120
 		ZOffset: 2500
-	debris2: sprites.lvl|Shrapnels.mobd
+	debris2:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 8
 		Length: 8
 		Tick: 120
 		ZOffset: 2500
-	debris3: sprites.lvl|Shrapnels.mobd
+	debris3:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 16
 		Length: 8
 		Tick: 120
 		ZOffset: 2500
-	debris4: sprites.lvl|Shrapnels.mobd
+	debris4:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 24
 		Length: 41
 		Tick: 120
 		ZOffset: 2500
-	debris5: sprites.lvl|Shrapnels.mobd
+	debris5:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 65
 		Length: 37
 		Tick: 120
 		ZOffset: 2500
-	debris6: sprites.lvl|Shrapnels.mobd
+	debris6:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 102
 		Length: 41
 		Tick: 120
 		ZOffset: 2500
-	spark1: sprites.lvl|Shrapnels.mobd
+	spark1:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 143
 		Length: 8
 		Tick: 120
 		ZOffset: 2500
-	spark2: sprites.lvl|Shrapnels.mobd
+	spark2:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 151
 		Length: 8
 		Tick: 120
 		ZOffset: 2500
-	spark3: sprites.lvl|Shrapnels.mobd
+	spark3:
+		Filename: sprites.lvl|Shrapnels.mobd
 		Start: 159
 		Length: 2
 		Tick: 120

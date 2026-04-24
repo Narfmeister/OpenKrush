@@ -16,7 +16,7 @@ neutral_building_pillar_a:
 			Radius: 700
 	Selectable:
 		Bounds: 1280, 1280, 0, 0
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: dieWall
 		EmptyWeapon: dieWall
 

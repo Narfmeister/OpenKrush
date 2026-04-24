@@ -206,10 +206,12 @@ public class RadarWidget : Widget
 					continue;
 
 				var pos = cell.ToMPos(this.ingameUi.World.Map.Grid.Type);
-				var color = this.useStanceColor ? Color.FromArgb(e.Actor.Owner.PlayerRelationshipColor(e.Actor).ToArgb()) : e.Actor.Owner.Color;
+				var color = this.useStanceColor
+					? Player.PlayerRelationshipColor(e.Actor.Owner, this.ingameUi.World.LocalPlayer)
+					: e.Actor.Owner.Color;
 
 				WidgetUtils.FillRectWithColor(
-					new(this.RenderBounds.X + pos.U * RadarWidget.Scale, this.RenderBounds.Y + pos.V * RadarWidget.Scale, RadarWidget.Scale, RadarWidget.Scale),
+					new Rectangle(this.RenderBounds.X + pos.U * RadarWidget.Scale, this.RenderBounds.Y + pos.V * RadarWidget.Scale, RadarWidget.Scale, RadarWidget.Scale),
 					color
 				);
 			}

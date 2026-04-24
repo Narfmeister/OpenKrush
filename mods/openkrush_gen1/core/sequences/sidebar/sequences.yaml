@@ -1,27 +1,40 @@
 sidebar:
-	button: core/sequences/sidebar/frames.png
+	button:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 0
-	button-down: core/sequences/sidebar/frames.png
+	button-down:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 10
-	radar: core/sequences/sidebar/frames.png
+	radar:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 4
-	options: core/sequences/sidebar/frames.png
+	options:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 5
-	sell: core/sequences/sidebar/frames.png
+	sell:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 7
-	oil: core/sequences/sidebar/frames.png
+	oil:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 8
-	research: core/sequences/sidebar/frames.png
+	research:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 9
-	unit: core/sequences/sidebar/frames.png
+	unit:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 1
-	unit-down: core/sequences/sidebar/frames.png
+	unit-down:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 11
-	button-small: core/sequences/sidebar/frames.png
+	button-small:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 12
-	button-small-up: core/sequences/sidebar/frames.png
+	button-small-up:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 13
-	button-small-down: core/sequences/sidebar/frames.png
+	button-small-down:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 14
-	repair: core/sequences/sidebar/frames.png
+	repair:
+		Filename: core/sequences/sidebar/frames.png
 		Start: 15

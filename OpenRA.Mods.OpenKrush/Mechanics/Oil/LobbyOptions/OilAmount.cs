@@ -37,6 +37,7 @@ public class OilAmountInfo : TraitInfo, ILobbyOptions
 		var standard = this.OilAmounts[this.OilAmountNames.IndexOf("Normal")];
 
 		yield return new(
+			mapPreview,
 			OilAmountInfo.Id,
 			"Amount",
 			"Amount of oil every OilPatch contains.",
@@ -44,8 +45,7 @@ public class OilAmountInfo : TraitInfo, ILobbyOptions
 			0,
 			new ReadOnlyDictionary<string, string>(values),
 			standard.ToString(),
-			false,
-			OilPatchInfo.LobbyOptionsCategory
+			false
 		);
 	}
 

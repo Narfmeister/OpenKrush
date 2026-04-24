@@ -1,41 +1,50 @@
 Metadata:
-	Title: Mod Content Manager
+	Title: mod-title
 	Version: {DEV_VERSION}
 	Hidden: true
 
-Packages:
-	^EngineDir
-	^EngineDir|mods/modcontent: modcontent
-	^EngineDir|mods/common: common
+FileSystem: DefaultFileSystem
+	Packages:
+		^EngineDir
+		^EngineDir|mods/common-content: content
+		^EngineDir|mods/common: common
+		$modcontent: modcontent
+		$openkrush_gen1: openkrush_gen1
 
 Rules:
-	modcontent|rules.yaml
+	content|rules.yaml
 
 Cursors:
-	modcontent|cursors.yaml
+	content|cursors.yaml
 
 Chrome:
-	modcontent|chrome.yaml
+	content|chrome.yaml
 
-Assemblies:
-	^BinDir|OpenRA.Mods.Common.dll
-	^BinDir|OpenRA.Mods.OpenKrush.dll
+Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.OpenKrush.dll
 
 ChromeLayout:
-	modcontent|content.yaml
+	content|content.yaml
 
 Notifications:
-	modcontent|notifications.yaml
+	content|notifications.yaml
 
 LoadScreen: ModContentLoadScreen
-	Image: ^EngineDir|mods/modcontent/chrome.png
+	Image: ^EngineDir|mods/common-content/chrome.png
+	Image2x: ^EngineDir|mods/common-content/chrome-2x.png
+	Image3x: ^EngineDir|mods/common-content/chrome-3x.png
 
 ChromeMetrics:
 	common|metrics.yaml
-	modcontent|metrics.yaml
+	content|metrics.yaml
 
-Translations:
-	common|languages/en.ftl
+FluentMessages:
+	common|fluent/common.ftl
+	common|fluent/chrome.ftl
+	common|fluent/hotkeys.ftl
+	common|fluent/rules.ftl
+	content|fluent/content.ftl
+	content|fluent/chrome.ftl
+	modcontent|fluent/chrome.ftl
 
 Fonts:
 	Tiny:
@@ -63,6 +72,35 @@ Fonts:
 		Size: 24
 		Ascender: 18
 
+ModContent:
+	Mod: openkrush_gen1
+	QuickDownload: demo
+	Packages:
+		ContentPackage@base:
+			Title: modcontent-package-basefiles
+			Identifier: base
+			TestFiles: ^SupportDir|Content/openkrush_gen1/sprites.lvl
+			Sources: gog, steam, kknd_english, xtreme_english
+			Required: true
+			Download: demo
+		ContentPackage@kknd:
+			Title: modcontent-package-kknd
+			Identifier: kknd
+			TestFiles: ^SupportDir|Content/openkrush_gen1/music/surv1.wav
+			Sources: gog, steam, kknd_english, xtreme_english
+		ContentPackage@xtreme:
+			Title: modcontent-package-xtreme
+			Identifier: xtreme
+			TestFiles: ^SupportDir|Content/openkrush_gen1/music/surv4.wav
+			Sources: gog, steam, xtreme_english
+	Downloads:
+		openkrush_gen1|installer/demo.yaml
+	Sources:
+		openkrush_gen1|installer/gog.yaml
+		openkrush_gen1|installer/steam.yaml
+		openkrush_gen1|installer/kknd_english.yaml
+		openkrush_gen1|installer/xtreme_english.yaml
+
 SoundFormats:
 
 SpriteFormats: PngSheet
@@ -70,5 +108,3 @@ SpriteFormats: PngSheet
 TerrainFormat: DefaultTerrain
 
 SpriteSequenceFormat: DefaultSpriteSequence
-
-ModelSequenceFormat: PlaceholderModelSequence

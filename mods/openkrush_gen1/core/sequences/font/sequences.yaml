@@ -1,3 +1,4 @@
 font:
-	production: core/sequences/font/frames.png
+	production:
+		Filename: core/sequences/font/frames.png
 		Length: 11

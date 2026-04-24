@@ -1,9 +1,12 @@
 survivors_vehicle_mobileoutpost:
-	idle: sprites.lvl|OutpostMobile.mobd
+	idle:
+		Filename: sprites.lvl|OutpostMobile.mobd
 		Facings: -16
-	move: sprites.lvl|OutpostMobile.mobd
+	move:
+		Filename: sprites.lvl|OutpostMobile.mobd
 		Start: 16
 		Length: 4
 		Tick: 120
 		Facings: -16
-	icon: actors/survivors/vehicles/mobileoutpost/icon.png
+	icon:
+		Filename: actors/survivors/vehicles/mobileoutpost/icon.png

@@ -15,7 +15,7 @@ neutral_building_skullonstick:
 			Radius: 256
 	Selectable:
 		Bounds: 1024, 1024, 0, 0
-	Explodes:
+	FireWarheadsOnDeath:
 		Weapon: breakWall
 		EmptyWeapon: breakWall
 	FrozenOnDeath:

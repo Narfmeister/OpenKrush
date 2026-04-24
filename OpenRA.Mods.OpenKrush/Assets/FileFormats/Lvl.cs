@@ -47,7 +47,7 @@ public class Lvl : IReadOnlyPackage
 		var lookupPath = $"archives/{Path.GetFileName(filename.ToLower())}.yaml";
 
 		if (context.TryOpen(lookupPath, out var lookupStream))
-			lvlLookup = MiniYaml.FromStream(lookupStream).ToDictionary(node => node.Key, node => node.Value.Value);
+			lvlLookup = MiniYaml.FromStream(lookupStream, lookupPath).ToDictionary(node => node.Key, node => node.Value.Value);
 
 		var fileTypeListOffset = stream.ReadInt32();
 		stream.Position = fileTypeListOffset;

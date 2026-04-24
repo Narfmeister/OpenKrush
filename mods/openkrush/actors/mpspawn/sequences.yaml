@@ -1,2 +1,3 @@
 mpspawn:
-	idle: actors/mpspawn/frames.png
+	idle:
+		Filename: actors/mpspawn/frames.png

@@ -27,10 +27,10 @@ public static class Decompressor
 		var uncompressedData = new byte[8 + uncompressedSizeData];
 		var uncompressedStream = new MemoryStream(uncompressedData);
 
-		uncompressedStream.WriteArray(Encoding.ASCII.GetBytes("DATA"));
+		uncompressedStream.Write(Encoding.ASCII.GetBytes("DATA"));
 		var tmp = BitConverter.GetBytes(uncompressedSizeData);
 		Array.Reverse(tmp);
-		uncompressedStream.WriteArray(tmp);
+		uncompressedStream.Write(tmp);
 		Decompressor.Decompress(compressed, uncompressedStream, uncompressedSizeData);
 
 		uncompressedStream.Position = 0;
@@ -47,7 +47,7 @@ public static class Decompressor
 			var compressedSize = compressed.ReadUInt32();
 
 			if (compressedSize == uncompressedSize)
-				uncompressed.WriteArray(compressed.ReadBytes((int)compressedSize));
+				uncompressed.Write(compressed.ReadBytes((int)compressedSize));
 			else
 			{
 				var chunkEndOffset = compressed.Position + compressedSize;
@@ -74,7 +74,7 @@ public static class Decompressor
 								var data = uncompressed.ReadBytes(amount);
 
 								uncompressed.Position += offset - amount;
-								uncompressed.WriteArray(data);
+								uncompressed.Write(data);
 
 								bytesLeft -= offset;
 							}

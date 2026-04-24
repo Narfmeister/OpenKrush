@@ -73,7 +73,7 @@ public class MobdImage
 				if (isSkipMode)
 					decompressed.Position += chunkSize;
 				else
-					decompressed.WriteArray(compressed.ReadBytes(chunkSize));
+					decompressed.Write(compressed.ReadBytes(chunkSize));
 
 				isSkipMode = !isSkipMode;
 			}
@@ -120,7 +120,7 @@ public class MobdImage
 						var pixelCount = chunkSize - 0x80;
 
 						if (has256Colors)
-							decompressed.WriteArray(compressed.ReadBytes(pixelCount));
+							decompressed.Write(compressed.ReadBytes(pixelCount));
 						else
 						{
 							var size = pixelCount / 2 + pixelCount % 2;
