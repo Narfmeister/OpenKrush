@@ -3,7 +3,7 @@ name: Release Packaging
 on:
   push:
     tags:
-    - '*'
+    - 'release-*'
 
 permissions:
   contents: write  #  for release creation (svenstaro/upload-release-action)
